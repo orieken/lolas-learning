@@ -17,7 +17,8 @@
     "types": [],
     "baseUrl": ".",
     "paths": {
-      "@lolas/core-sdk": ["packages/core-sdk/src"]
+      "@lolas/core-sdk": ["packages/core-sdk/src"],
+      "@lolas/ui-kit": ["packages/ui-kit/src"]
     }
   }
 }
