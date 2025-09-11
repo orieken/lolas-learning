@@ -92,7 +92,7 @@ export const plugin: GamePlugin = {
     overlay.appendChild(resumeBtn);
 
     let breathStep = 0;
-    let breathInterval: any;
+    let breathInterval: ReturnType<typeof setInterval> | undefined;
 
     function openOverlay() {
       timer.pause();

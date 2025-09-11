@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { makeNumberLines, type NumberLine } from '../generator';
+import { makeNumberLines } from '../generator';
 
 function analyzeDiffs(items: number[]) {
   const diffs = items.slice(1).map((v, i) => v - items[i]);
@@ -62,8 +62,8 @@ describe('makeNumberLines()', () => {
   });
 
   it('throws on invalid inputs', () => {
-    expect(() => makeNumberLines([10, 9] as any)).toThrow(/min < max/);
-    expect(() => makeNumberLines([NaN as any, 10] as any)).toThrow(/finite/);
+    expect(() => makeNumberLines([10, 9] as unknown as [number, number])).toThrow(/min < max/);
+    expect(() => makeNumberLines([NaN, 10] as [number, number])).toThrow(/finite/);
     expect(() => makeNumberLines([1, 10], { lines: 0 })).toThrow(/positive integer/);
     expect(() => makeNumberLines([1, 10], { lineLength: 2 })).toThrow(/>= 3/);
     // range too small for given lineLength

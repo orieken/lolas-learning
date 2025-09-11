@@ -2,7 +2,7 @@ export class PausableTimer {
   private elapsed = 0; // accumulated elapsed ms while running
   private running = false;
   private paused = false;
-  private timeout: any = null;
+  private timeout: ReturnType<typeof setTimeout> | null = null;
 
   constructor(
     private onTick: (elapsedMs: number) => void,

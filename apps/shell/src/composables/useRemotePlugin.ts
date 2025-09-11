@@ -23,9 +23,17 @@ export function useRemotePlugin() {
     let lastErr: unknown = undefined;
     for (const spec of options.specs) {
       try {
-        // @ts-ignore dynamic federation or direct URL import at runtime
-        const mod: any = await import(/* @vite-ignore */ spec);
-        const plugin: GamePlugin | undefined = mod?.plugin || mod?.default || mod;
+        // @ts-expect-error dynamic federation or direct URL import at runtime
+        const mod: unknown = await import(/* @vite-ignore */ spec);
+        const maybe = mod as { plugin?: GamePlugin; default?: GamePlugin } | GamePlugin | undefined;
+        const plugin: GamePlugin | undefined =
+          (maybe && typeof maybe === 'object' && 'plugin' in (maybe as any)
+            ? (maybe as { plugin?: GamePlugin }).plugin
+            : undefined) ||
+          (maybe && typeof maybe === 'object' && 'default' in (maybe as any)
+            ? (maybe as { default?: GamePlugin }).default
+            : undefined) ||
+          ((maybe as GamePlugin | undefined) ?? undefined);
         if (plugin && typeof plugin === 'object') {
           status.value = RemoteStatus.Loaded;
           return plugin;
@@ -35,8 +43,8 @@ export function useRemotePlugin() {
       }
     }
     status.value = RemoteStatus.Error;
-    errorMsg.value =
-      (lastErr as any)?.stack || (lastErr as any)?.message || String(lastErr ?? 'Unknown error');
+    const errObj = lastErr as { stack?: string; message?: string } | undefined;
+    errorMsg.value = errObj?.stack || errObj?.message || String(lastErr ?? 'Unknown error');
     return undefined;
   }
 

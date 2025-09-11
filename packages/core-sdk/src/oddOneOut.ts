@@ -1,11 +1,11 @@
 import type { CoreAPI, Session } from './index';
 
-export type OddOneOutLine<T = any> = {
+export type OddOneOutLine<T = unknown> = {
   items: T[];
   errorIndex: number; // index of the odd item
 };
 
-export type OddOneOutOptions<T = any> = {
+export type OddOneOutOptions<T = unknown> = {
   el: HTMLElement;
   core: CoreAPI;
   gameId: string;
@@ -30,10 +30,10 @@ export type OddOneOutMountResult = {
  * runs the loop for the provided lines. Maintains the same DOM attributes and
  * texts used by existing games/tests.
  */
-export function mountOddOneOut<T = any>(opts: OddOneOutOptions<T>): OddOneOutMountResult {
+export function mountOddOneOut<T = unknown>(opts: OddOneOutOptions<T>): OddOneOutMountResult {
   const { el, core, gameId, total, lines } = opts;
   const canClick = opts.canClick || (() => true);
-  const formatItem = opts.formatItem || ((v: any) => String(v));
+  const formatItem: (v: T) => string = opts.formatItem || ((v: T) => String(v));
 
   const startedAt = Date.now();
   el.innerHTML = '';

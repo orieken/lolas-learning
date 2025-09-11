@@ -21,7 +21,10 @@ const { status, errorMsg, load } = useRemotePlugin();
 
 onMounted(async () => {
   try {
-    const plugin = await load({ specs: ['letter_detective/Game', 'http://localhost:5175/src/Game.ts'] });
+    const isLocal = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
+        const specs = ['letter_detective/Game'] as string[];
+        if (isLocal) specs.push('http://localhost:5175/src/Game.ts');
+        const plugin = await load({ specs });
     if (!plugin) throw new Error('Remote plugin not found after attempts');
 
     const sessions = useSessionsStore();

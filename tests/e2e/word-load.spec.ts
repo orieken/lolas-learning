@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
-async function playPerfectRun(page: any) {
+async function playPerfectRun(page: Page) {
   for (let i = 0; i < 10; i++) {
     const oddBtn = page.locator('[data-test="game-root"] [data-error="true"]');
     await expect(oddBtn).toBeVisible();

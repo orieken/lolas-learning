@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 
-async function playPerfectRun(page: any) {
+async function playPerfectRun(page: Page) {
   await page.getByTestId('link-number-detective').click();
   // play through 10 error taps
   for (let i = 0; i < 10; i++) {
