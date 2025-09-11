@@ -1,0 +1,4 @@
+export { plugin } from './Game';
+};
+
+

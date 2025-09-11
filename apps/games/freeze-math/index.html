@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Game Dev Preview</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module">
+      import { plugin } from '/src/Game.ts';
+      import { createCoreApi } from '@lolas/core-sdk';
+      const el = document.getElementById('app');
+      const core = createCoreApi();
+      plugin.mount?.(el, core);
+    </script>
+  </body>
+</html>

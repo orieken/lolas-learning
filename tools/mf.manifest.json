@@ -1,0 +1,26 @@
+{
+  "apps": [
+    {
+      "id": "shell",
+      "package": "@lolas/shell",
+      "devCommand": "dev",
+      "port": 5173,
+      "openUrl": "http://localhost:5173/#/",
+      "default": true
+    },
+    {
+      "id": "number-detective",
+      "package": "@lolas/game-number-detective",
+      "devCommand": "dev",
+      "port": 5174,
+      "default": true
+    },
+    {
+      "id": "freeze-math",
+      "package": "@lolas/game-freeze-math",
+      "devCommand": "dev",
+      "port": 5177,
+      "default": false
+    }
+  ]
+}

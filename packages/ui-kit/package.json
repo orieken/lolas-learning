@@ -1,0 +1,23 @@
+{
+  "name": "@lolas/ui-kit",
+  "version": "0.0.0",
+  "private": false,
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist || rm -rf dist"
+  },
+  "devDependencies": {
+    "typescript": "^5.5.4",
+    "rimraf": "^5.0.7"
+  }
+}
+
