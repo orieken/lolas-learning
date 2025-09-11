@@ -14,7 +14,11 @@
     "declaration": true,
     "sourceMap": true,
     "lib": ["ES2022", "DOM"],
-    "types": []
+    "types": [],
+    "baseUrl": ".",
+    "paths": {
+      "@lolas/core-sdk": ["packages/core-sdk/src"]
+    }
   }
 }
 
