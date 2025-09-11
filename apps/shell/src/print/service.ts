@@ -43,4 +43,3 @@ export function registerDefaultPrintables() {
     makePdf: () => new Blob([`Detective Stars Sheet`], { type: 'application/pdf' }),
   });
 }
-

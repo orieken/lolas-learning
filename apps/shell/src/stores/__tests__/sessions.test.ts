@@ -33,8 +33,11 @@ describe('sessions store', () => {
     await store.load();
     const s = mkSession('sess2', 'game2', Date.now());
     store.addSession(s);
-    expect(store.sessions.map(x => x.id)).toContain('sess2');
-    expect(localForage.setItem).toHaveBeenCalledWith('sessions', expect.arrayContaining([expect.objectContaining({ id: 'sess2' })]));
+    expect(store.sessions.map((x) => x.id)).toContain('sess2');
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'sessions',
+      expect.arrayContaining([expect.objectContaining({ id: 'sess2' })]),
+    );
   });
 
   it('filters sessions by game and computes latest', async () => {
@@ -47,14 +50,14 @@ describe('sessions store', () => {
     store.addSession(s2);
     store.addSession(s3);
     const g1 = store.getByGame('g1');
-    expect(g1.map(s => s.id)).toEqual(['s1','s2']);
+    expect(g1.map((s) => s.id)).toEqual(['s1', 's2']);
     expect(store.latest?.id).toBe('s3');
   });
 
   it('clears sessions', async () => {
     const store = useSessionsStore();
     await store.load();
-    store.addSession(mkSession('x','g',1));
+    store.addSession(mkSession('x', 'g', 1));
     store.clear();
     expect(store.sessions).toEqual([]);
     expect(localForage.setItem).toHaveBeenCalledWith('sessions', []);

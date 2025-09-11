@@ -37,7 +37,7 @@ function makeRng(seed: number) {
  */
 export function makeNumberLines(
   range: [number, number],
-  opts: MakeNumberLinesOptions = {}
+  opts: MakeNumberLinesOptions = {},
 ): NumberLine[] {
   const { lines = 10, lineLength = 6, seed = 42 } = opts;
   const [start, end] = range;

@@ -29,7 +29,9 @@ export function makeLetterLines(opts: MakeLetterLinesOptions = {}): LetterLine[]
   const out: LetterLine[] = [];
   for (let i = 0; i < lines; i++) {
     const startOffset = Math.floor(rng.next() * (maxStart + 1));
-    const base: string[] = Array.from({ length: lineLength }, (_, k) => String.fromCharCode(aCode + startOffset + k));
+    const base: string[] = Array.from({ length: lineLength }, (_, k) =>
+      String.fromCharCode(aCode + startOffset + k),
+    );
     const type = types[i % types.length];
     let errorIndex = Math.floor(rng.next() * (lineLength - 1));
     if (type === 'double') {

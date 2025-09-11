@@ -37,4 +37,3 @@ describe('rewards rule engine', () => {
     expect(rewards.hasBadge('detective-star')).toBe(true);
   });
 });
-

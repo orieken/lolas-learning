@@ -42,4 +42,3 @@ test('FreezeMath: freeze overlay pauses timer and resume continues', async ({ pa
   const afterResume = parseSeconds(await timer.textContent());
   expect(afterResume).toBeGreaterThan(stillFrozen + 0.19);
 });
-

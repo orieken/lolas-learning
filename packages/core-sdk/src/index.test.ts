@@ -51,4 +51,3 @@ describe('createCoreApi', () => {
     expect(() => core.registerPrintable(_testPrintable)).not.toThrow();
   });
 });
-

@@ -13,11 +13,6 @@ export default defineConfig({
     globals: true,
     watch: false,
     include: ['**/*.{test,spec}.?(c|m)[jt]s?(x)'],
-    exclude: [
-      'tests/e2e/**',
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/coverage/**'
-    ],
+    exclude: ['tests/e2e/**', '**/node_modules/**', '**/dist/**', '**/coverage/**'],
   },
 });

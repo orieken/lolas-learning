@@ -6,10 +6,12 @@ test('printable download triggers a PDF file', async ({ page }) => {
 
   // Go to Print Center
   await page.getByTestId('link-print').click();
-  await expect(page.getByRole('heading', { name: /Print Center/i })).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole('heading', { name: /Print Center/i })).toBeVisible({
+    timeout: 10000,
+  });
 
   // Wait for browser download event while clicking the printable
-  const [ download ] = await Promise.all([
+  const [download] = await Promise.all([
     page.waitForEvent('download'),
     page.getByTestId('print-detective-stars-sheet').click(),
   ]);
@@ -17,4 +19,3 @@ test('printable download triggers a PDF file', async ({ page }) => {
   const suggested = download.suggestedFilename();
   expect(suggested).toMatch(/detective-stars-sheet.*\.pdf$/);
 });
-

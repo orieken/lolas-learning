@@ -32,4 +32,3 @@ describe('makeLetterLines', () => {
     expect(b).toEqual(a);
   });
 });
-

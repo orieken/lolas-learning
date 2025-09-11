@@ -9,7 +9,9 @@ test('Number Detective: load, a11y check, and complete a full run', async ({ pag
   });
 
   await page.goto('/#/');
-  await expect(page.getByRole('heading', { name: /Lola's Learning Shell/i })).toBeVisible({ timeout: 15000 });
+  await expect(page.getByRole('heading', { name: /Lola's Learning Shell/i })).toBeVisible({
+    timeout: 15000,
+  });
 
   // Navigate to game
   await page.getByTestId('link-number-detective').click();
@@ -23,7 +25,8 @@ test('Number Detective: load, a11y check, and complete a full run', async ({ pag
     errorEl.waitFor({ state: 'visible', timeout: 20000 }).then(() => 'error' as const),
   ]).catch(() => 'timeout' as const);
   if (appeared === 'error' || appeared === 'timeout') {
-    const errText = appeared === 'error' ? await errorEl.textContent() : 'timeout waiting for game-root';
+    const errText =
+      appeared === 'error' ? await errorEl.textContent() : 'timeout waiting for game-root';
     throw new Error(`Remote load failed: ${errText}`);
   }
 

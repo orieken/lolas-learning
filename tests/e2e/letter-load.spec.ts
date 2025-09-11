@@ -19,4 +19,3 @@ test('Letter Detective: load and complete a full run', async ({ page }) => {
   await playPerfectRun(page);
   await expect(page.getByText(/Finished! Score 10\/10/)).toBeVisible({ timeout: 10000 });
 });
-

@@ -22,7 +22,8 @@ export const plugin: GamePlugin = {
     instr.style.background = '#f5f5f5';
     instr.style.padding = '8px 12px';
     instr.style.borderRadius = '8px';
-    instr.textContent = 'One letter in each row is out of order or does not belong. Tap the odd letter to advance.';
+    instr.textContent =
+      'One letter in each row is out of order or does not belong. Tap the odd letter to advance.';
     root.appendChild(instr);
 
     let current = 0;

@@ -4,7 +4,10 @@ export class PausableTimer {
   private paused = false;
   private timeout: any = null;
 
-  constructor(private onTick: (elapsedMs: number) => void, private intervalMs = 100) {}
+  constructor(
+    private onTick: (elapsedMs: number) => void,
+    private intervalMs = 100,
+  ) {}
 
   start() {
     if (this.running) return;

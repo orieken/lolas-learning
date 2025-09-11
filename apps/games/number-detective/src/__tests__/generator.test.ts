@@ -8,7 +8,7 @@ function analyzeDiffs(items: number[]) {
       acc.counts[d] = (acc.counts[d] ?? 0) + 1;
       return acc;
     },
-    { counts: {} as Record<number, number> }
+    { counts: {} as Record<number, number> },
   );
   return { diffs, stats };
 }
@@ -27,20 +27,20 @@ describe('makeNumberLines()', () => {
         expect(stats.counts[2]).toBe(1);
         expect(stats.counts[0] ?? 0).toBe(0);
         // all others should be +1
-        const ones = (stats.counts[1] ?? 0);
+        const ones = stats.counts[1] ?? 0;
         expect(ones).toBe(diffs.length - 1);
       } else if (ln.type === 'double') {
         // pattern 0 then 2 around errorIndex
         expect(stats.counts[0]).toBe(1);
         expect(stats.counts[2]).toBe(1);
         // others are +1
-        const ones = (stats.counts[1] ?? 0);
+        const ones = stats.counts[1] ?? 0;
         expect(ones).toBe(diffs.length - 2);
       } else if (ln.type === 'order') {
         // pattern -1 then 2 around errorIndex
         expect(stats.counts[-1]).toBe(1);
         expect(stats.counts[2]).toBe(1);
-        const ones = (stats.counts[1] ?? 0);
+        const ones = stats.counts[1] ?? 0;
         expect(ones).toBe(diffs.length - 2);
       }
       // errorIndex must be in range [0, items.length-2]
@@ -84,4 +84,3 @@ describe('makeNumberLines()', () => {
     }
   });
 });
-

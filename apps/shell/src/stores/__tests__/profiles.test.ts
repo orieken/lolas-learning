@@ -27,8 +27,11 @@ describe('profiles store', () => {
     const store = useProfilesStore();
     await store.load();
     store.addProfile(mockProfile);
-    expect(store.profiles.map(p => p.id)).toContain('p1');
-    expect(localForage.setItem).toHaveBeenCalledWith('profiles', expect.objectContaining({ profiles: [mockProfile] }));
+    expect(store.profiles.map((p) => p.id)).toContain('p1');
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'profiles',
+      expect.objectContaining({ profiles: [mockProfile] }),
+    );
   });
 
   it('selects a profile and saves', async () => {
@@ -37,7 +40,10 @@ describe('profiles store', () => {
     store.addProfile(mockProfile);
     store.selectProfile('p1');
     expect(store.selectedId).toBe('p1');
-    expect(localForage.setItem).toHaveBeenCalledWith('profiles', expect.objectContaining({ selectedId: 'p1' }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'profiles',
+      expect.objectContaining({ selectedId: 'p1' }),
+    );
   });
 
   it('clears profiles', async () => {
@@ -47,6 +53,9 @@ describe('profiles store', () => {
     store.clear();
     expect(store.profiles).toEqual([]);
     expect(store.selectedId).toBeUndefined();
-    expect(localForage.setItem).toHaveBeenCalledWith('profiles', expect.objectContaining({ profiles: [], selectedId: undefined }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'profiles',
+      expect.objectContaining({ profiles: [], selectedId: undefined }),
+    );
   });
 });

@@ -8,7 +8,7 @@ export const RemoteStatus = {
   Loaded: 'loaded',
   Error: 'error',
 } as const;
-export type RemoteStatus = typeof RemoteStatus[keyof typeof RemoteStatus];
+export type RemoteStatus = (typeof RemoteStatus)[keyof typeof RemoteStatus];
 
 export type LoadRemoteOptions = {
   specs: string[]; // module specifiers or URLs to try in order
@@ -35,7 +35,8 @@ export function useRemotePlugin() {
       }
     }
     status.value = RemoteStatus.Error;
-    errorMsg.value = (lastErr as any)?.stack || (lastErr as any)?.message || String(lastErr ?? 'Unknown error');
+    errorMsg.value =
+      (lastErr as any)?.stack || (lastErr as any)?.message || String(lastErr ?? 'Unknown error');
     return undefined;
   }
 

@@ -15,8 +15,8 @@ export default defineConfig({
       name: 'freeze_math',
       filename: 'remoteEntry.js',
       exposes: { './Game': './src/Game.ts' },
-      shared: ['vue']
-    })
+      shared: ['vue'],
+    }),
   ],
-  build: { target: 'esnext' }
+  build: { target: 'esnext' },
 });

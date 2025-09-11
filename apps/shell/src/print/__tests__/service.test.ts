@@ -17,7 +17,7 @@ describe('printRegistry', () => {
     printRegistry.register({ id: 'a', title: 'A', makePdf: () => {} });
     printRegistry.register({ id: 'b', title: 'B', makePdf: () => {} });
     const all = printRegistry.getAll();
-    expect(all.map(p => p.id).sort()).toEqual(['a','b']);
+    expect(all.map((p) => p.id).sort()).toEqual(['a', 'b']);
   });
 
   it('generates a Blob using definition makePdf when provided', async () => {
@@ -36,4 +36,3 @@ describe('printRegistry', () => {
     await expect(printRegistry.generate('nope')).rejects.toThrow(/not found/i);
   });
 });
-

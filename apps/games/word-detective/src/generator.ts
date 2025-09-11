@@ -42,4 +42,3 @@ export function makeWordSets(opts: MakeWordSetsOptions = {}): WordLine[] {
   }
   return out;
 }
-

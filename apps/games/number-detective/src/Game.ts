@@ -15,7 +15,8 @@ export const plugin: GamePlugin = {
       total,
       lines,
       formatItem: (n) => String(n),
-      instructions: 'Find the number that breaks the pattern in each row. Tap it to move on. Solve all rows to finish.',
+      instructions:
+        'Find the number that breaks the pattern in each row. Tap it to move on. Solve all rows to finish.',
     });
   },
   async unmount() {

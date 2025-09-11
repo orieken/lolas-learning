@@ -20,4 +20,3 @@ describe('makeWordSets', () => {
     expect(b).toEqual(a);
   });
 });
-

@@ -21,4 +21,3 @@ describe('PausableTimer', () => {
     vi.useRealTimers();
   });
 });
-

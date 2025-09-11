@@ -13,11 +13,13 @@ const HEADLESS = toBool(process.env.HEADLESS, true);
 const RECORD_VIDEO_ENV = (process.env.RECORD_VIDEO || '').trim().toLowerCase();
 // Allow: '', 'on', 'retain-on-failure', 'on-first-retry'
 const VIDEO: 'on' | 'retain-on-failure' | 'on-first-retry' | 'off' =
-  RECORD_VIDEO_ENV === 'on' || RECORD_VIDEO_ENV === 'retain-on-failure' || RECORD_VIDEO_ENV === 'on-first-retry'
+  RECORD_VIDEO_ENV === 'on' ||
+  RECORD_VIDEO_ENV === 'retain-on-failure' ||
+  RECORD_VIDEO_ENV === 'on-first-retry'
     ? (RECORD_VIDEO_ENV as any)
     : toBool(process.env.RECORD_VIDEO, false)
-    ? 'on-first-retry'
-    : 'off';
+      ? 'on-first-retry'
+      : 'off';
 
 const SCREENSHOTS_ENV = (process.env.SCREENSHOTS || '').trim().toLowerCase();
 // Allow: '', 'on', 'only-on-failure', 'off'
@@ -25,8 +27,8 @@ const SCREENSHOT: 'on' | 'only-on-failure' | 'off' =
   SCREENSHOTS_ENV === 'on' || SCREENSHOTS_ENV === 'only-on-failure'
     ? (SCREENSHOTS_ENV as any)
     : toBool(process.env.SCREENSHOTS, true)
-    ? 'only-on-failure'
-    : 'off';
+      ? 'only-on-failure'
+      : 'off';
 
 export default defineConfig({
   testDir: 'tests/e2e',

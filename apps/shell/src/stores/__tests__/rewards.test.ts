@@ -15,7 +15,10 @@ describe('rewards store', () => {
   });
 
   it('loads rewards from localForage', async () => {
-    (localForage.getItem as any).mockResolvedValue({ stars: 2, badges: [{ id: 'badge1', earnedAt: 123 }] });
+    (localForage.getItem as any).mockResolvedValue({
+      stars: 2,
+      badges: [{ id: 'badge1', earnedAt: 123 }],
+    });
     const store = useRewardsStore();
     await store.load();
     expect(store.stars).toBe(2);
@@ -28,7 +31,10 @@ describe('rewards store', () => {
     await store.load();
     store.addStar();
     expect(store.stars).toBe(1);
-    expect(localForage.setItem).toHaveBeenCalledWith('rewards', expect.objectContaining({ stars: 1 }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'rewards',
+      expect.objectContaining({ stars: 1 }),
+    );
   });
 
   it('adds a badge and saves only once', async () => {
@@ -36,7 +42,7 @@ describe('rewards store', () => {
     await store.load();
     store.addBadge('badge2');
     store.addBadge('badge2');
-    expect(store.badges.filter(b => b.id === 'badge2').length).toBe(1);
+    expect(store.badges.filter((b) => b.id === 'badge2').length).toBe(1);
     expect(store.hasBadge('badge2')).toBe(true);
   });
 
@@ -48,7 +54,9 @@ describe('rewards store', () => {
     store.clear();
     expect(store.stars).toBe(0);
     expect(store.badges).toEqual([]);
-    expect(localForage.setItem).toHaveBeenCalledWith('rewards', expect.objectContaining({ stars: 0, badges: [] }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'rewards',
+      expect.objectContaining({ stars: 0, badges: [] }),
+    );
   });
 });
-

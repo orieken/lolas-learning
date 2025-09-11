@@ -14,7 +14,9 @@ async function playPerfectRun(page: any) {
 
 test('rewards: 5 perfect sessions award detective-star badge', async ({ page }) => {
   await page.goto('/#/');
-  await expect(page.getByRole('heading', { name: /Lola's Learning Shell/i })).toBeVisible({ timeout: 15000 });
+  await expect(page.getByRole('heading', { name: /Lola's Learning Shell/i })).toBeVisible({
+    timeout: 15000,
+  });
 
   for (let i = 0; i < 5; i++) {
     await playPerfectRun(page);
@@ -24,4 +26,3 @@ test('rewards: 5 perfect sessions award detective-star badge', async ({ page }) 
   await expect(page.getByTestId('stars')).toContainText('Stars: 5');
   await expect(page.getByTestId('badges')).toContainText('detective-star');
 });
-

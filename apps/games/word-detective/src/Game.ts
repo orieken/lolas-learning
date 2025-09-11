@@ -16,7 +16,8 @@ export const plugin: GamePlugin = {
       total,
       lines,
       formatItem: (w: string) => String(w),
-      instructions: 'In each row one word does not rhyme with the others. Tap the odd word out to continue.',
+      instructions:
+        'In each row one word does not rhyme with the others. Tap the odd word out to continue.',
     });
   },
 };

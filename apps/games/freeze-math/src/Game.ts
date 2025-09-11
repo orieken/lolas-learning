@@ -24,7 +24,8 @@ export const plugin: GamePlugin = {
     instr.style.background = '#f5f5f5';
     instr.style.padding = '8px 12px';
     instr.style.borderRadius = '8px';
-    instr.textContent = 'Spot the number in each row that breaks the even counting pattern. Tap it. Use Freeze to pause, breathe, then continue.';
+    instr.textContent =
+      'Spot the number in each row that breaks the even counting pattern. Tap it. Use Freeze to pause, breathe, then continue.';
     root.appendChild(instr);
 
     let current = 0;
@@ -214,7 +215,8 @@ export const plugin: GamePlugin = {
     factsInstr.style.background = '#eef6ff';
     factsInstr.style.padding = '6px 10px';
     factsInstr.style.borderRadius = '6px';
-    factsInstr.textContent = 'Solve each math fact. Type the answer and press Enter or Submit. Practice is optional and does not affect the Freeze Math score.';
+    factsInstr.textContent =
+      'Solve each math fact. Type the answer and press Enter or Submit. Practice is optional and does not affect the Freeze Math score.';
     root.appendChild(factsInstr);
 
     const factsPanel = document.createElement('div');

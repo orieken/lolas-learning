@@ -17,7 +17,9 @@ export const useSessionsStore = defineStore('sessions', {
     sessionCount: (state) => state.sessions.length,
     getByGame: (state) => (gameId: string) => state.sessions.filter((s) => s.gameId === gameId),
     latest: (state) =>
-      [...state.sessions].sort((a, b) => (b.completedAt ?? b.startedAt) - (a.completedAt ?? a.startedAt))[0],
+      [...state.sessions].sort(
+        (a, b) => (b.completedAt ?? b.startedAt) - (a.completedAt ?? a.startedAt),
+      )[0],
   },
   actions: {
     async load() {
@@ -39,4 +41,3 @@ export const useSessionsStore = defineStore('sessions', {
     },
   },
 });
-

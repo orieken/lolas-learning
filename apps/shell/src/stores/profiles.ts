@@ -20,8 +20,7 @@ export const useProfilesStore = defineStore('profiles', {
     loading: false,
   }),
   getters: {
-    selected: (state) =>
-      state.profiles.find((p) => p.id === state.selectedId),
+    selected: (state) => state.profiles.find((p) => p.id === state.selectedId),
     profileCount: (state) => state.profiles.length,
   },
   actions: {
@@ -56,4 +55,3 @@ export const useProfilesStore = defineStore('profiles', {
     },
   },
 });
-

@@ -21,8 +21,7 @@ export const useRewardsStore = defineStore('rewards', {
   }),
   getters: {
     badgeCount: (state) => state.badges.length,
-    hasBadge: (state) => (id: string) =>
-      state.badges.some((b) => b.id === id),
+    hasBadge: (state) => (id: string) => state.badges.some((b) => b.id === id),
   },
   actions: {
     async load() {

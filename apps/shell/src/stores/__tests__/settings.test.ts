@@ -26,7 +26,10 @@ describe('settings store', () => {
     await store.load();
     store.setSound(false);
     expect(store.sound).toBe(false);
-    expect(localForage.setItem).toHaveBeenCalledWith('settings', expect.objectContaining({ sound: false }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'settings',
+      expect.objectContaining({ sound: false }),
+    );
   });
 
   it('sets dark mode and saves', async () => {
@@ -34,7 +37,10 @@ describe('settings store', () => {
     await store.load();
     store.setDarkMode(true);
     expect(store.darkMode).toBe(true);
-    expect(localForage.setItem).toHaveBeenCalledWith('settings', expect.objectContaining({ darkMode: true }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'settings',
+      expect.objectContaining({ darkMode: true }),
+    );
   });
 
   it('clears settings', async () => {
@@ -45,6 +51,9 @@ describe('settings store', () => {
     store.clear();
     expect(store.sound).toBe(true);
     expect(store.darkMode).toBe(false);
-    expect(localForage.setItem).toHaveBeenCalledWith('settings', expect.objectContaining({ sound: true, darkMode: false }));
+    expect(localForage.setItem).toHaveBeenCalledWith(
+      'settings',
+      expect.objectContaining({ sound: true, darkMode: false }),
+    );
   });
 });

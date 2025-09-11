@@ -58,4 +58,3 @@ export function createCoreApi(adapter: CoreEventAdapter = {}): CoreAPI {
 }
 
 export * from './oddOneOut';
-

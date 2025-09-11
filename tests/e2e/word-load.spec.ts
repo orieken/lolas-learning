@@ -20,8 +20,6 @@ test('Word Detective: load and complete a full run', async ({ page }) => {
   await expect(page.getByText(/Finished! Score 10\/10/)).toBeVisible({ timeout: 10000 });
 });
 
-
-
 class MyClass {
   a: number;
   b: number;
@@ -41,12 +39,9 @@ class MyClass {
     // return readonly version of my class
   }
 
-  isMutable(): boolean {
-
-  }
+  isMutable(): boolean {}
 }
 
-const x  = new MyClass(1,2,3)
+const x = new MyClass(1, 2, 3);
 
 x.isMutable();
-
