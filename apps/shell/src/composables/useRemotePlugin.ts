@@ -23,7 +23,6 @@ export function useRemotePlugin() {
     let lastErr: unknown = undefined;
     for (const spec of options.specs) {
       try {
-        // @ts-expect-error dynamic federation or direct URL import at runtime
         const mod: unknown = await import(/* @vite-ignore */ spec);
         const maybe = mod as { plugin?: GamePlugin; default?: GamePlugin } | GamePlugin | undefined;
         const plugin: GamePlugin | undefined =
