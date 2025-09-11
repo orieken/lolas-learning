@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8.15.8
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Install deps
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Unit tests (Vitest + Coverage)
+        run: pnpm test -- --coverage
+
+      - name: Upload coverage artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+          if-no-files-found: ignore
+
+      - name: Cache Playwright Browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: E2E tests (Playwright)
+        run: pnpm e2e
+        env:
+          HEADLESS: 'true'
+
+      - name: Upload e2e artifacts (test-results)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+            name: playwright-test-results
+            path: test-results
+            if-no-files-found: ignore
+
+      - name: Build shell
+        run: pnpm --filter @lolas/shell build
+
+      - name: Upload shell dist
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: shell-dist
+          path: apps/shell/dist
+          if-no-files-found: warn
+
+      - name: Netlify Deploy (Production)
+        if: github.ref == 'refs/heads/main' && !github.event.pull_request
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+            npx netlify deploy --dir=apps/shell/dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
+          else
+            echo "Netlify secrets missing; skipping deploy";
+          fi
+
+      - name: Netlify Deploy (Preview)
+        if: github.event_name == 'pull_request'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+            npx netlify deploy --dir=apps/shell/dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
+          else
+            echo "Netlify secrets missing; skipping preview deploy";
+          fi

@@ -1,5 +1,5 @@
 import type { GamePlugin, CoreAPI, Session } from '@lolas/core-sdk';
-import { makeLines } from './generator';
+import { makeLines, makeFacts } from './generator';
 import { PausableTimer } from './timer';
 
 export const plugin: GamePlugin = {
@@ -200,6 +200,107 @@ export const plugin: GamePlugin = {
     }
 
     renderLine();
+
+    // --- Arithmetic Facts Practice (P-10) ---
+    const factsHeader = document.createElement('h3');
+    factsHeader.textContent = 'Facts Practice';
+    factsHeader.style.marginTop = '32px';
+    root.appendChild(factsHeader);
+
+    const factsInstr = document.createElement('div');
+    factsInstr.setAttribute('data-test', 'facts-instructions');
+    factsInstr.style.fontSize = '13px';
+    factsInstr.style.lineHeight = '1.4';
+    factsInstr.style.background = '#eef6ff';
+    factsInstr.style.padding = '6px 10px';
+    factsInstr.style.borderRadius = '6px';
+    factsInstr.textContent = 'Solve each math fact. Type the answer and press Enter or Submit. Practice is optional and does not affect the Freeze Math score.';
+    root.appendChild(factsInstr);
+
+    const factsPanel = document.createElement('div');
+    factsPanel.setAttribute('data-test', 'facts-root');
+    factsPanel.style.display = 'grid';
+    factsPanel.style.gap = '8px';
+    factsPanel.style.alignItems = 'center';
+    factsPanel.style.gridTemplateColumns = 'auto 1fr auto';
+    root.appendChild(factsPanel);
+
+    const facts = makeFacts(15, { seed: 3, max: 10 });
+    let factIndex = 0;
+    let factCorrect = 0;
+
+    const factProblem = document.createElement('div');
+    factProblem.setAttribute('data-test', 'facts-problem');
+    factProblem.style.fontSize = '20px';
+    factProblem.style.fontWeight = '600';
+
+    const factInput = document.createElement('input');
+    factInput.type = 'number';
+    factInput.setAttribute('data-test', 'facts-input');
+    factInput.style.padding = '8px';
+    factInput.style.fontSize = '18px';
+    factInput.style.width = '100%';
+    factInput.setAttribute('aria-label', 'Fact answer');
+
+    const factBtn = document.createElement('button');
+    factBtn.type = 'button';
+    factBtn.textContent = 'Submit';
+    factBtn.setAttribute('data-test', 'facts-submit');
+    factBtn.style.padding = '8px 12px';
+    factBtn.style.fontSize = '16px';
+
+    const factFeedback = document.createElement('div');
+    factFeedback.setAttribute('data-test', 'facts-feedback');
+    factFeedback.style.gridColumn = '1 / -1';
+    factFeedback.style.minHeight = '20px';
+    factFeedback.style.fontSize = '14px';
+
+    factsPanel.appendChild(factProblem);
+    factsPanel.appendChild(factInput);
+    factsPanel.appendChild(factBtn);
+    factsPanel.appendChild(factFeedback);
+
+    function renderFact() {
+      if (factIndex >= facts.length) {
+        factProblem.textContent = 'All done!';
+        factInput.disabled = true;
+        factBtn.disabled = true;
+        factFeedback.textContent = `Great job! Correct: ${factCorrect}/${facts.length}`;
+        return;
+      }
+      const f = facts[factIndex];
+      factProblem.textContent = `${f.a} ${f.op} ${f.b} = ?`;
+      factInput.value = '';
+      factInput.disabled = false;
+      factBtn.disabled = false;
+      factInput.focus();
+      factFeedback.textContent = '';
+    }
+
+    function submitFact() {
+      if (factIndex >= facts.length) return;
+      const f = facts[factIndex];
+      const val = parseInt(factInput.value, 10);
+      if (isNaN(val)) {
+        factFeedback.textContent = 'Enter a number';
+        return;
+      }
+      if (val === f.answer) {
+        factCorrect++;
+        factFeedback.textContent = 'Correct!';
+        factIndex++;
+        setTimeout(() => renderFact(), 300);
+      } else {
+        factFeedback.textContent = 'Try again…';
+      }
+    }
+
+    factBtn.addEventListener('click', submitFact);
+    factInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') submitFact();
+    });
+
+    renderFact();
   },
   async unmount() {
     // no-op for now

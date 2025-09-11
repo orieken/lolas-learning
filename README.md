@@ -1,5 +1,8 @@
 # Lolas Learning Monorepo
 
+[![CI](https://github.com/orieken/lolas-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/orieken/lolas-learning/actions/workflows/ci.yml)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/REPLACE_ME_NETLIFY/site/status)](https://app.netlify.com/sites/REPLACE_ME_NETLIFY/overview)
+
 This repository contains multiple apps and packages for the Lolas Learning platform.
 
 ## Tech Stack
@@ -9,6 +12,17 @@ This repository contains multiple apps and packages for the Lolas Learning platf
 - Playwright for end-to-end tests (+ axe-core a11y checks)
 - Vite dev servers
 - Pinia (state) + localForage (persistence) in shell
+
+## CI/CD (P-11)
+Automated via GitHub Actions workflow `ci.yml`:
+- Install with cached pnpm store
+- Lint & typecheck gates
+- Unit tests (Vitest) with coverage artifact upload
+- E2E tests (Playwright) with report artifact upload
+- Build shell (and core packages)
+- Conditional Netlify deploy on push to main (and PR previews) when `NETLIFY_AUTH_TOKEN` & `NETLIFY_SITE_ID` secrets are present.
+
+Badges above use placeholder values. Replace `REPLACE_ME_OWNER/REPLACE_ME_REPO` and `REPLACE_ME_NETLIFY` after repo & site are created.
 
 ## Prerequisites
 - Node.js (v18+ recommended)
@@ -133,7 +147,6 @@ apps/
   shell/           Host PWA shell (Pinia stores, federation host)
   games/
     number-detective/  First game (remote)
-docs/              Architecture & development plan
 ```
 
 ## State Stores
@@ -146,7 +159,7 @@ Each has unit tests mocking localForage.
 
 ## Development Plan
 See `docs/detective-dev-plan.md` for the step-by-step prompts (P‑01–P‑14).
-Completed so far: P‑01, P‑02, P‑03, P‑05, P‑06, P‑07.
+Completed so far: P‑01, P‑02, P‑03, P‑05, P‑06, P‑07, P‑08, P‑09, P‑10.
 
 ## Conventions
 - Keep packages framework-agnostic unless explicitly an app.

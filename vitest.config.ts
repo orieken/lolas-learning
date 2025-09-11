@@ -5,6 +5,10 @@ export default defineConfig({
     environment: 'node',
     coverage: {
       provider: 'v8',
+      lines: 25,
+      statements: 25,
+      functions: 25,
+      branches: 50,
     },
     globals: true,
     watch: false,
