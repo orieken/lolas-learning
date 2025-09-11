@@ -2,7 +2,9 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["vite/client"]
+    "types": ["vue", "vite/client"],
+    "allowArbitraryExtensions": true
   },
-  "include": ["src"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
+  "exclude": ["node_modules", "dist"]
 }
