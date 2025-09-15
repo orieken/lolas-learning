@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { setActivePinia, createPinia } from 'pinia';
 import { useRewardsStore } from '../rewards';
 import { describe, it, expect, beforeEach, vi } from 'vitest';

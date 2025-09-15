@@ -1,4 +1,5 @@
 // filepath: /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/shell/src/stores/__tests__/rewards.test.ts
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { setActivePinia, createPinia } from 'pinia';
 import { useRewardsStore } from '../rewards';
 import { vi, describe, it, expect, beforeEach } from 'vitest';

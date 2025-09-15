@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { setActivePinia, createPinia } from 'pinia';
 import { useSettingsStore } from '../settings';
 import { vi, describe, it, expect, beforeEach } from 'vitest';

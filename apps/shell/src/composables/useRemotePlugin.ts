@@ -1,4 +1,5 @@
 // Reusable composable to load a remote GamePlugin via federation with graceful fallbacks
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { ref } from 'vue';
 import type { GamePlugin } from '@lolas/core-sdk';
 
