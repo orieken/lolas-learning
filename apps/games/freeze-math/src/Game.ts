@@ -1,3 +1,4 @@
+import './style.css';
 import type { GamePlugin, CoreAPI, Session } from '@lolas/core-sdk';
 import { makeLines, makeFacts } from './generator';
 import { PausableTimer } from './timer';

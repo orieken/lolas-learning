@@ -1,0 +1,10 @@
+{
+  "latestErrorEvent": {
+    "code": "TYPE-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/number-detective/node_modules/.federation/tsconfig.df1537a49cf080af72e4b5f9cbaef54f.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "args": {
+      "cmd": "npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/number-detective/node_modules/.federation/tsconfig.df1537a49cf080af72e4b5f9cbaef54f.json"
+    },
+    "timestamp": 1776314711426
+  }
+}

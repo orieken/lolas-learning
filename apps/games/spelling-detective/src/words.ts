@@ -1,0 +1,58 @@
+export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'dyslexia';
+
+export type WordEntry = {
+  correct: string;
+  misspelling: string;
+  errorType: MisspellType;
+};
+
+export type MisspellType =
+  | 'transposition'
+  | 'omission'
+  | 'substitution'
+  | 'doubling'
+  | 'insertion';
+
+export const easyWords = [
+  'a', 'at', 'am', 'an', 'in', 'is', 'it', 'if', 'up', 'us', 'on', 'no', 'go', 'do', 'so', 
+  'me', 'he', 'we', 'be', 'by', 'my', 'or', 'of', 'to', 'I', 'as', 'has', 'had', 'his', 'him', 
+  'her', 'can', 'ran', 'fan', 'man', 'pan', 'sat', 'cat', 'bat', 'hat', 'mat', 'rat', 'van', 
+  'tan', 'sun', 'run', 'fun', 'gun', 'bun', 'cup', 'cut', 'put', 'but', 'nut', 'rut', 'pig', 
+  'big', 'fig', 'dig', 'wig', 'jig', 'hop', 'top', 'pop', 'mop', 'cop', 'dot', 'hot', 'lot', 
+  'got', 'cot', 'bed', 'red', 'fed', 'led', 'wet', 'set', 'net', 'pet', 'let'
+];
+
+export const mediumWords = [
+  'the', 'and', 'said', 'you', 'like', 'come', 'have', 'from', 'they', 'were', 'what', 'when', 
+  'here', 'with', 'this', 'will', 'look', 'see', 'play', 'make', 'that', 'jump', 'into', 'for', 
+  'her', 'his', 'are', 'was', 'all', 'one', 'our', 'out', 'put', 'day', 'too', 'now', 'new', 
+  'old', 'ran', 'gave', 'live', 'find', 'each', 'away', 'any', 'may', 'its', 'use', 'how', 
+  'who', 'get', 'back', 'your', 'two', 'more', 'did', 'let', 'way', 'big', 'set', 'tell', 'give', 
+  'does', 'good', 'some', 'just', 'went', 'came', 'told', 'help', 'say', 'him', 'got', 'saw'
+];
+
+export const hardWords = [
+  'there', 'their', 'these', 'those', 'other', 'about', 'could', 'would', 'should', 'which', 
+  'while', 'where', 'again', 'after', 'every', 'first', 'found', 'place', 'write', 'think', 
+  'light', 'right', 'night', 'might', 'fight', 'sight', 'bring', 'thing', 'going', 'doing', 
+  'being', 'water', 'under', 'never', 'still', 'always', 'often', 'before', 'little', 'people', 
+  'school', 'friend', 'number', 'together', 'something', 'another', 'because', 'without', 
+  'between', 'through', 'everything'
+];
+
+export const dyslexiaWords = [
+  'bad', 'dad', 'pad', 'dog', 'bog', 'pig', 'dig', 'big', 'bed', 'pod', 'pop', 'nod',
+  'mat', 'net', 'won', 'now', 'saw', 'was', 'man', 'pan', 'nap', 'who', 'how',
+  'ten', 'pot', 'top', 'pit', 'tip', 'on', 'no', 'quite', 'quiet', 'from', 'form',
+  'left', 'felt', 'wasn\'t', 'want', 'said', 'play', 'day', 'boy', 'toy', 'joy'
+];
+
+export const getWordsForLevel = (level: DifficultyLevel): string[] => {
+  switch (level) {
+    case 'medium': return mediumWords;
+    case 'hard': return hardWords;
+    case 'dyslexia': return dyslexiaWords;
+    case 'easy':
+    default: return easyWords;
+  }
+};

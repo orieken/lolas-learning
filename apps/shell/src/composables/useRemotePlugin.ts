@@ -12,7 +12,7 @@ export const RemoteStatus = {
 export type RemoteStatus = (typeof RemoteStatus)[keyof typeof RemoteStatus];
 
 export type LoadRemoteOptions = {
-  specs: string[]; // module specifiers or URLs to try in order
+  loaders: (() => Promise<unknown>)[];
 };
 
 export function useRemotePlugin() {
@@ -22,9 +22,9 @@ export function useRemotePlugin() {
   async function load(options: LoadRemoteOptions): Promise<GamePlugin | undefined> {
     status.value = RemoteStatus.Loading;
     let lastErr: unknown = undefined;
-    for (const spec of options.specs) {
+    for (const loader of options.loaders) {
       try {
-        const mod: unknown = await import(/* @vite-ignore */ spec);
+        const mod: unknown = await loader();
         const maybe = mod as { plugin?: GamePlugin; default?: GamePlugin } | GamePlugin | undefined;
         const plugin: GamePlugin | undefined =
           (maybe && typeof maybe === 'object' && 'plugin' in (maybe as any)

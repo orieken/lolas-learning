@@ -21,10 +21,8 @@ const { status, errorMsg, load } = useRemotePlugin();
 
 onMounted(async () => {
   try {
-    const isLocal = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
-    const specs = ['freeze_math/Game'] as string[];
-    if (isLocal) specs.push('http://localhost:5177/src/Game.ts');
-    const plugin = await load({ specs });
+    const loaders = [() => import('freeze_math/Game')];
+    const plugin = await load({ loaders });
     if (!plugin) throw new Error('Remote plugin not found after attempts');
 
     const sessions = useSessionsStore();

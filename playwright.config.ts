@@ -44,6 +44,12 @@ export default defineConfig({
   },
   webServer: [
     {
+      command: 'pnpm --filter @lolas/game-spelling-detective dev',
+      port: 5179,
+      reuseExistingServer: true,
+      timeout: 60000,
+    },
+    {
       command: 'pnpm --filter @lolas/game-freeze-math dev',
       port: 5177,
       reuseExistingServer: true,
@@ -64,6 +70,12 @@ export default defineConfig({
     {
       command: 'pnpm --filter @lolas/game-word-detective dev',
       port: 5176,
+      reuseExistingServer: true,
+      timeout: 60000,
+    },
+    {
+      command: 'pnpm --filter @lolas/game-letter-flip-detective dev',
+      port: 5178,
       reuseExistingServer: true,
       timeout: 60000,
     },

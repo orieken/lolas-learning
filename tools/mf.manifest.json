@@ -21,6 +21,41 @@
       "devCommand": "dev",
       "port": 5177,
       "default": false
+    },
+    {
+      "id": "letter-flip-detective",
+      "package": "@lolas/game-letter-flip-detective",
+      "devCommand": "dev",
+      "port": 5178,
+      "default": false
+    },
+    {
+      "id": "letter-detective",
+      "package": "@lolas/game-letter-detective",
+      "devCommand": "dev",
+      "port": 5175,
+      "default": false
+    },
+    {
+      "id": "word-detective",
+      "package": "@lolas/game-word-detective",
+      "devCommand": "dev",
+      "port": 5176,
+      "default": false
+    },
+    {
+      "id": "spelling-detective",
+      "package": "@lolas/game-spelling-detective",
+      "devCommand": "dev",
+      "port": 5179,
+      "default": false
+    },
+    {
+      "id": "math-blast",
+      "package": "@lolas/game-math-blast",
+      "devCommand": "dev",
+      "port": 5181,
+      "default": true
     }
   ]
 }

@@ -1,3 +1,4 @@
+import './style.css';
 import type { GamePlugin, CoreAPI } from '@lolas/core-sdk';
 import { mountOddOneOut } from '@lolas/core-sdk';
 import { makeWordSets, type WordLine } from './generator';

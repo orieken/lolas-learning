@@ -1,27 +1,36 @@
 import { defineConfig, loadEnv } from 'vite';
+import { withZephyr } from "vite-plugin-zephyr";
 import vue from '@vitejs/plugin-vue';
-import federation from '@originjs/vite-plugin-federation';
+import path from 'node:path';
+import tailwindcss from '@tailwindcss/vite';
 
-export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
-  const freeze = env.VITE_REMOTE_FREEZE_MATH || 'http://localhost:5177/assets/remoteEntry.js';
-  const number = env.VITE_REMOTE_NUMBER_DETECTIVE || 'http://localhost:5174/assets/remoteEntry.js';
-  const letter = env.VITE_REMOTE_LETTER_DETECTIVE || 'http://localhost:5175/assets/remoteEntry.js';
-  const word = env.VITE_REMOTE_WORD_DETECTIVE || 'http://localhost:5176/assets/remoteEntry.js';
+export default defineConfig(() => {
   return {
+    envDir: '../../',
     server: { port: 5173, cors: true },
+    preview: { port: 5173, cors: true },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+      },
+    },
     plugins: [
-      vue(),
-      federation({
+      vue(), 
+      tailwindcss(),
+      withZephyr({
+        mfConfig: {
         name: 'shell',
         remotes: {
-          freeze_math: freeze,
-          number_detective: number,
-          letter_detective: letter,
-          word_detective: word,
+          freeze_math: 'freeze_math',
+          number_detective: 'number_detective',
+          letter_detective: 'letter_detective',
+          word_detective: 'word_detective',
+          letter_flip_detective: 'letter_flip_detective',
+          spelling_detective: 'spelling_detective',
+          math_blast: 'math_blast',
         },
         shared: ['vue', 'pinia', '@lolas/core-sdk'],
-      }),
+      } })
     ],
     build: { target: 'esnext' },
   };

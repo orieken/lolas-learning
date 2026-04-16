@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Animations */
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
+@keyframes burst {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); filter: brightness(1.2); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes star-fill {
+  0% { transform: scale(0.5); opacity: 0; fill: transparent; }
+  50% { transform: scale(1.2); opacity: 1; fill: #fbbf24; }
+  100% { transform: scale(1); fill: #fbbf24; }
+}
+
+/* View Transitions */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.fade-enter-from {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* Modal Transition */
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.modal-enter-active .modal-container {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.modal-leave-active .modal-container {
+  transition: transform 0.3s ease;
+}
+
+.modal-enter-from { opacity: 0; }
+.modal-leave-to { opacity: 0; }
+
+.modal-enter-from .modal-container { transform: scale(0.8); }
+.modal-leave-to .modal-container { transform: scale(0.95); }
+
+/* Basic Starfield implementation */
+.stars, .stars2, .stars3 {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: transparent;
+}
+.stars { box-shadow: 10px 10px #fff, 150px 200px #fff, 300px 50px #fff, 400px 250px #fff; opacity: 0.8; height: 2px; width: 2px; border-radius: 50%; }
+.stars2 { box-shadow: 50px 150px #fff, 200px 30px #fff, 100px 400px #fff, 350px 300px #fff; opacity: 0.5; height: 3px; width: 3px; border-radius: 50%; }
+.stars3 { box-shadow: 80px 80px #fff, 250px 150px #fff, 380px 420px #fff; opacity: 0.3; height: 4px; width: 4px; border-radius: 50%; }

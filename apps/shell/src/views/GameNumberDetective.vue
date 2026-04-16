@@ -21,10 +21,8 @@ const { status, errorMsg, load } = useRemotePlugin();
 
 onMounted(async () => {
   try {
-    const isLocal = typeof window !== 'undefined' && /^(localhost|127\.0\.0\.1)$/i.test(window.location.hostname);
-    const specs = ['number_detective/Game'] as string[];
-    if (isLocal) specs.push('http://localhost:5174/src/Game.ts');
-    const plugin = await load({ specs });
+    const loaders = [() => import('number_detective/Game')];
+    const plugin = await load({ loaders });
     if (!plugin) throw new Error('Remote plugin not found after attempts');
 
     // Core adapter: route events to Pinia stores

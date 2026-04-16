@@ -1,0 +1,14 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "target": "ES2022",
+    "isolatedModules": true,
+    "declaration": true,
+    "outDir": "dist",
+    "types": ["vite/client"]
+  },
+  "include": ["src"]
+}

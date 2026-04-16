@@ -1,0 +1,10 @@
+{
+  "latestErrorEvent": {
+    "code": "TYPE-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/math-blast/node_modules/.federation/tsconfig.c87a4fb83c7616a16337e531d32cc7a2.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "args": {
+      "cmd": "npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/math-blast/node_modules/.federation/tsconfig.c87a4fb83c7616a16337e531d32cc7a2.json"
+    },
+    "timestamp": 1776314707840
+  }
+}

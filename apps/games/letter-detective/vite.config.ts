@@ -1,17 +1,26 @@
 import { defineConfig } from 'vite';
-import federation from '@originjs/vite-plugin-federation';
+import { withZephyr } from "vite-plugin-zephyr";
+import tailwindcss from '@tailwindcss/vite';
+import path from 'node:path';
 
 export default defineConfig({
-  server: { port: 5175 },
-  plugins: [
-    federation({
+  envDir: '../../../',
+  server: { port: 5175, cors: true },
+    preview: { port: 5175, cors: true },
+  resolve: {
+    alias: {
+      '@lolas/core-sdk': path.resolve(__dirname, '../../../packages/core-sdk'),
+    },
+    preserveSymlinks: true,
+  },
+  plugins: [tailwindcss(), withZephyr({
+        mfConfig: {
       name: 'letter_detective',
       filename: 'remoteEntry.js',
       exposes: {
         './Game': './src/Game.ts',
       },
       shared: ['@lolas/core-sdk'],
-    }),
-  ],
+    } })],
   build: { target: 'esnext' },
 });
