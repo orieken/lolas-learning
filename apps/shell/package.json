@@ -9,16 +9,33 @@
     "build": "vite build",
     "typebuild": "tsc -p tsconfig.json",
     "clean": "rimraf dist || rm -rf dist",
-    "dev": "vite"
+    "dev": "vite",
+    "preview": "vite preview"
+  },
+  "zephyr:dependencies": {
+    "math_blast": "@lolas/game-math-blast@latest",
+    "freeze_math": "@lolas/game-freeze-math@latest",
+    "number_detective": "@lolas/game-number-detective@latest",
+    "letter_detective": "@lolas/game-letter-detective@latest",
+    "word_detective": "@lolas/game-word-detective@latest",
+    "letter_flip_detective": "@lolas/game-letter-flip-detective@latest",
+    "spelling_detective": "@lolas/game-spelling-detective@latest"
   },
   "dependencies": {
     "@lolas/core-sdk": "workspace:*",
+    "@lolas/game-freeze-math": "workspace:*",
+    "@lolas/game-letter-detective": "workspace:*",
+    "@lolas/game-letter-flip-detective": "workspace:*",
+    "@lolas/game-math-blast": "workspace:*",
+    "@lolas/game-number-detective": "workspace:*",
+    "@lolas/game-spelling-detective": "workspace:*",
+    "@lolas/game-word-detective": "workspace:*",
     "@lolas/ui-kit": "workspace:*",
-    "@vue/runtime-dom": "^3.5.21",
-    "@vue/runtime-core": "^3.5.21",
-    "@vue/shared": "^3.5.21",
-    "@vue/reactivity": "^3.5.21",
     "@vue/devtools-api": "^6.6.3",
+    "@vue/reactivity": "^3.5.21",
+    "@vue/runtime-core": "^3.5.21",
+    "@vue/runtime-dom": "^3.5.21",
+    "@vue/shared": "^3.5.21",
     "localforage": "^1.10.0",
     "pinia": "^2.1.7",
     "vue": "^3.5.21",
@@ -26,14 +43,12 @@
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
-    "@originjs/vite-plugin-federation": "^1.4.1",
+    "@tailwindcss/vite": "^4.1.18",
     "@types/node": "^20.14.12",
     "@vitejs/plugin-vue": "^5.1.2",
     "rimraf": "^5.0.7",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5.5.4",
-    "vite": "^5.4.9",
-    "tailwindcss": "^3.4.10",
-    "postcss": "^8.4.45",
-    "autoprefixer": "^10.4.20"
+    "vite": "^5.4.9"
   }
 }
