@@ -21,6 +21,7 @@ export default defineConfig(() => {
       withZephyr({
         mfConfig: {
           name: 'shell',
+          filename: 'remoteEntry.js',
           remotes: {
             freeze_math: 'freeze_math',
             number_detective: 'number_detective',
