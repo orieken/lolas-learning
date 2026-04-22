@@ -7,12 +7,6 @@ export default defineConfig({
   envDir: '../../../',
   server: { port: 5175, cors: true },
     preview: { port: 5175, cors: true },
-  resolve: {
-    alias: {
-      '@lolas/core-sdk': path.resolve(__dirname, '../../../packages/core-sdk'),
-    },
-    preserveSymlinks: true,
-  },
   plugins: [tailwindcss(), withZephyr({
         mfConfig: {
       name: 'letter_detective',

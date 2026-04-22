@@ -1,10 +1,10 @@
 {
   "latestErrorEvent": {
     "code": "TYPE-001",
-    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/spelling-detective/node_modules/.federation/tsconfig.e50241b54406ed5c1386d4e16172ab9e.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/spelling-detective/node_modules/.federation/tsconfig.336fed7a6c60addd598267d953b02b59.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
     "args": {
-      "cmd": "npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/spelling-detective/node_modules/.federation/tsconfig.e50241b54406ed5c1386d4e16172ab9e.json"
+      "cmd": "npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/spelling-detective/node_modules/.federation/tsconfig.336fed7a6c60addd598267d953b02b59.json"
     },
-    "timestamp": 1776314711467
+    "timestamp": 1776341385360
   }
 }

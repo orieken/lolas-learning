@@ -73,7 +73,28 @@ jobs:
             path: test-results
             if-no-files-found: ignore
 
+      - name: Build packages
+        run: |
+          pnpm --filter @lolas/core-sdk build
+          pnpm --filter @lolas/ui-kit build
+
+      - name: Build and publish games to Zephyr Cloud
+        env:
+          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}
+          ZE_USER_EMAIL: ${{ secrets.ZE_USER_EMAIL }}
+        run: |
+          pnpm --filter @lolas/game-freeze-math build
+          pnpm --filter @lolas/game-math-blast build
+          pnpm --filter @lolas/game-number-detective build
+          pnpm --filter @lolas/game-letter-detective build
+          pnpm --filter @lolas/game-word-detective build
+          pnpm --filter @lolas/game-letter-flip-detective build
+          pnpm --filter @lolas/game-spelling-detective build
+
       - name: Build shell
+        env:
+          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}
+          ZE_USER_EMAIL: ${{ secrets.ZE_USER_EMAIL }}
         run: pnpm --filter @lolas/shell build
 
       - name: Upload shell dist

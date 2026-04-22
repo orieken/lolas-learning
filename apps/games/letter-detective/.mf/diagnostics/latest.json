@@ -1,10 +1,10 @@
 {
   "latestErrorEvent": {
     "code": "TYPE-001",
-    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/letter-detective/node_modules/.federation/tsconfig.3c036d705d635f30cf14876b1defe74b.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
+    "message": "Failed to generate type declaration. Execute the below cmd to reproduce and fix the error. #TYPE-001\nargs: {\"cmd\":\"npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/letter-detective/node_modules/.federation/tsconfig.ae0e3df1624e28f28c9c10a2724f4ecb.json\"}\nView the docs to see how to solve: https://module-federation.io/guide/troubleshooting/type#type-001",
     "args": {
-      "cmd": "npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/letter-detective/node_modules/.federation/tsconfig.3c036d705d635f30cf14876b1defe74b.json"
+      "cmd": "npx tsc --project /Users/oscarrieken/Projects/Rieken/lolas-learning/apps/games/letter-detective/node_modules/.federation/tsconfig.ae0e3df1624e28f28c9c10a2724f4ecb.json"
     },
-    "timestamp": 1776314707073
+    "timestamp": 1776341381264
   }
 }

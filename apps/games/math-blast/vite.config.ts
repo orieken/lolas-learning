@@ -8,12 +8,6 @@ export default defineConfig({
   envDir: '../../../',
   server: { port: 5181, cors: true },
     preview: { port: 5181, cors: true },
-  resolve: {
-    alias: {
-      '@lolas/core-sdk': path.resolve(__dirname, '../../../packages/core-sdk'),
-    },
-    preserveSymlinks: true,
-  },
   plugins: [vue(), tailwindcss(),
     withZephyr({
         mfConfig: {
