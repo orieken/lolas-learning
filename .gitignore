@@ -142,3 +142,7 @@ vite.config.ts.timestamp-*
 .idea/
 .env
 test-results/
+
+# macOS
+.DS_Store
+.npm-cache/

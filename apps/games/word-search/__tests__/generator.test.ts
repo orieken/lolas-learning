@@ -4,13 +4,20 @@ import { generateGrid, findWordInGrid } from '../lib/generator';
 function seededRng(seed: number) {
   let s = seed % 2147483647;
   if (s <= 0) s += 2147483646;
-  return () => { s = (s * 16807) % 2147483647; return (s - 1) / 2147483646; };
+  return () => {
+    s = (s * 16807) % 2147483647;
+    return (s - 1) / 2147483646;
+  };
 }
 
 describe('generateGrid basic placements', () => {
   it('places short words right and down by default', () => {
     const words = ['CAT', 'DOG'];
-    const res = generateGrid(words, 5, 5, { random: seededRng(1), allowBackwards: false, allowDiagonal: false });
+    const res = generateGrid(words, 5, 5, {
+      random: seededRng(1),
+      allowBackwards: false,
+      allowDiagonal: false,
+    });
     expect(res.success).toBe(true);
     expect(res.placements.length).toBe(2);
     // grid contains letters (flatten rows)
@@ -23,7 +30,11 @@ describe('generateGrid basic placements', () => {
 
   it('respects allowBackwards and allowDiagonal options', () => {
     const words = ['ANT', 'EEL', 'BOAT'];
-    const res = generateGrid(words, 6, 6, { random: seededRng(2), allowBackwards: true, allowDiagonal: true });
+    const res = generateGrid(words, 6, 6, {
+      random: seededRng(2),
+      allowBackwards: true,
+      allowDiagonal: true,
+    });
     expect(res.success).toBe(true);
     expect(res.placements.length).toBe(3);
   });
@@ -39,9 +50,9 @@ describe('generateGrid basic placements', () => {
 describe('findWordInGrid solver', () => {
   it('finds horizontal words', () => {
     const grid = [
-      ['C','A','T'],
-      ['X','X','X'],
-      ['D','O','G']
+      ['C', 'A', 'T'],
+      ['X', 'X', 'X'],
+      ['D', 'O', 'G'],
     ];
     const res1 = findWordInGrid(grid, 'cat');
     const res2 = findWordInGrid(grid, 'dog');
@@ -51,9 +62,9 @@ describe('findWordInGrid solver', () => {
 
   it('finds diagonal and backwards when present', () => {
     const grid = [
-      ['A','B','C'],
-      ['D','E','F'],
-      ['G','H','I']
+      ['A', 'B', 'C'],
+      ['D', 'E', 'F'],
+      ['G', 'H', 'I'],
     ];
     // "AEI" diagonal down-right
     const diag = findWordInGrid(grid, 'AEI');

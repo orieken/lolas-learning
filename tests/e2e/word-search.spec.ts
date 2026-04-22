@@ -54,7 +54,10 @@ test.describe('Word Search puzzles page', () => {
       // for each word, ensure solver finds at least one placement
       for (const word of words) {
         const placements = findWordInGrid(grid, word);
-        expect(placements.length, `Word ${word} should be found in puzzle section ${si}`).toBeGreaterThan(0);
+        expect(
+          placements.length,
+          `Word ${word} should be found in puzzle section ${si}`,
+        ).toBeGreaterThan(0);
       }
     }
   });

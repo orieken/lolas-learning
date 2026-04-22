@@ -1,4 +1,4 @@
-import type { GamePlugin, CoreAPI, Session } from '@lolas/core-sdk';
+import type { GamePlugin, CoreAPI } from '@lolas/core-sdk';
 import { makeWordRound } from './generator';
 import type { DifficultyLevel, WordEntry } from './words';
 
@@ -46,7 +46,9 @@ export const plugin: GamePlugin = {
 
     function announce(msg: string) {
       statusAnnouncer.textContent = '';
-      setTimeout(() => { statusAnnouncer.textContent = msg; }, 50);
+      setTimeout(() => {
+        statusAnnouncer.textContent = msg;
+      }, 50);
     }
 
     function render() {
@@ -58,19 +60,49 @@ export const plugin: GamePlugin = {
         title.className = 'text-3xl font-bold mb-8 text-center';
         content.appendChild(title);
 
-        const levels: { id: DifficultyLevel; name: string; stars: string; desc: string; color: string }[] = [
-          { id: 'easy', name: 'Easy', stars: '⭐', desc: 'Short words, swap two letters', color: 'lolaGreen' },
-          { id: 'medium', name: 'Medium', stars: '⭐⭐', desc: 'Longer words, timed', color: 'lolaYellow' },
-          { id: 'hard', name: 'Hard', stars: '⭐⭐⭐', desc: 'Trickier mistakes, fast timer', color: 'lolaPink' },
-          { id: 'dyslexia', name: 'Patterns', stars: '🎯', desc: 'Practice common confusions, untimed', color: 'lolaPurple' },
+        const levels: {
+          id: DifficultyLevel;
+          name: string;
+          stars: string;
+          desc: string;
+          color: string;
+        }[] = [
+          {
+            id: 'easy',
+            name: 'Easy',
+            stars: '⭐',
+            desc: 'Short words, swap two letters',
+            color: 'lolaGreen',
+          },
+          {
+            id: 'medium',
+            name: 'Medium',
+            stars: '⭐⭐',
+            desc: 'Longer words, timed',
+            color: 'lolaYellow',
+          },
+          {
+            id: 'hard',
+            name: 'Hard',
+            stars: '⭐⭐⭐',
+            desc: 'Trickier mistakes, fast timer',
+            color: 'lolaPink',
+          },
+          {
+            id: 'dyslexia',
+            name: 'Patterns',
+            stars: '🎯',
+            desc: 'Practice common confusions, untimed',
+            color: 'lolaPurple',
+          },
         ];
 
-        levels.forEach(l => {
+        levels.forEach((l) => {
           const btn = document.createElement('button');
           btn.setAttribute('data-test', `level-btn-${l.id}`);
           btn.setAttribute('aria-label', `${l.name} level: ${l.desc}`);
           btn.className = `w-full text-left bg-white p-6 rounded-2xl mb-4 shadow-lg border-4 border-${l.color}-500 hover:bg-${l.color}-50 transition-colors focus:ring-4 focus:ring-${l.color}-300 outline-none`;
-          
+
           btn.innerHTML = `
             <div class="flex items-center justify-between mb-2">
               <span class="text-2xl font-bold">${l.name}</span>
@@ -97,8 +129,9 @@ export const plugin: GamePlugin = {
 
       if (state === 'DONE') {
         content.setAttribute('data-test', 'done-screen');
-        content.className = 'text-center bg-white p-8 rounded-2xl shadow-xl border-4 border-lolaBlue-400';
-        
+        content.className =
+          'text-center bg-white p-8 rounded-2xl shadow-xl border-4 border-lolaBlue-400';
+
         let emoji = '🏅';
         if (correctCount >= 10) emoji = '🏆';
         else if (correctCount >= 9) emoji = '🥇';
@@ -123,35 +156,53 @@ export const plugin: GamePlugin = {
         }
 
         const btnPrompt = document.createElement('button');
-        btnPrompt.className = 'w-full py-4 text-xl font-bold text-white rounded-xl shadow border-b-4 mb-4 ';
+        btnPrompt.className =
+          'w-full py-4 text-xl font-bold text-white rounded-xl shadow border-b-4 mb-4 ';
         if (level === 'easy' && correctCount > 7) {
           btnPrompt.textContent = 'Ready to try Medium? 🚀';
-          btnPrompt.classList.add('bg-lolaYellow-500', 'border-lolaYellow-600', 'hover:bg-lolaYellow-400');
+          btnPrompt.classList.add(
+            'bg-lolaYellow-500',
+            'border-lolaYellow-600',
+            'hover:bg-lolaYellow-400',
+          );
           btnPrompt.addEventListener('click', () => {
             level = 'medium';
             playAgain();
           });
         } else if (level === 'medium' && correctCount > 7) {
           btnPrompt.textContent = 'Challenge yourself on Hard! 🔥';
-          btnPrompt.classList.add('bg-lolaPink-500', 'border-lolaPink-600', 'hover:bg-lolaPink-400');
+          btnPrompt.classList.add(
+            'bg-lolaPink-500',
+            'border-lolaPink-600',
+            'hover:bg-lolaPink-400',
+          );
           btnPrompt.addEventListener('click', () => {
             level = 'hard';
             playAgain();
           });
         } else if (level === 'hard' && correctCount === 10) {
-          btnPrompt.textContent = 'Perfect score on Hard! You\'re a Spelling Detective! 🔍🏆';
-          btnPrompt.classList.add('bg-lolaPurple-500', 'border-lolaPurple-600', 'hover:bg-lolaPurple-400');
+          btnPrompt.textContent = "Perfect score on Hard! You're a Spelling Detective! 🔍🏆";
+          btnPrompt.classList.add(
+            'bg-lolaPurple-500',
+            'border-lolaPurple-600',
+            'hover:bg-lolaPurple-400',
+          );
           btnPrompt.addEventListener('click', playAgain);
         } else {
           btnPrompt.textContent = 'Play again 🔄';
-          btnPrompt.classList.add('bg-lolaBlue-500', 'border-lolaBlue-600', 'hover:bg-lolaBlue-400');
+          btnPrompt.classList.add(
+            'bg-lolaBlue-500',
+            'border-lolaBlue-600',
+            'hover:bg-lolaBlue-400',
+          );
           btnPrompt.addEventListener('click', playAgain);
         }
         content.appendChild(btnPrompt);
 
         const homeBtn = document.createElement('button');
         homeBtn.textContent = 'Back to Levels';
-        homeBtn.className = 'w-full py-3 text-lg font-bold text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 focus:ring-4 focus:ring-slate-300 outline-none';
+        homeBtn.className =
+          'w-full py-3 text-lg font-bold text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 focus:ring-4 focus:ring-slate-300 outline-none';
         homeBtn.addEventListener('click', () => {
           state = 'LEVEL_SELECT';
           render();
@@ -164,7 +215,7 @@ export const plugin: GamePlugin = {
 
       if (state === 'PLAYING' || state === 'ROUND_FEEDBACK') {
         const round = rounds[currentRound];
-        
+
         // Header
         const header = document.createElement('div');
         header.className = 'flex justify-between items-center mb-4';
@@ -184,7 +235,7 @@ export const plugin: GamePlugin = {
         timerBarInner.className = 'h-full bg-lolaBlue-400 transition-all ease-linear';
         timerBarInner.style.width = '100%';
         timerBarOuter.appendChild(timerBarInner);
-        
+
         if (level === 'medium' || level === 'hard') {
           content.appendChild(timerBarOuter);
           if (state === 'PLAYING' && !timerId) {
@@ -203,7 +254,7 @@ export const plugin: GamePlugin = {
         cardsWrap.className = 'flex flex-col sm:flex-row gap-6 mb-8';
         content.appendChild(cardsWrap);
 
-        const isReversed = (currentRound % 2) === 1; // deterministically pseudo-randomize position
+        const isReversed = currentRound % 2 === 1; // deterministically pseudo-randomize position
         const leftWord = isReversed ? round.misspelling : round.correct;
         const rightWord = isReversed ? round.correct : round.misspelling;
 
@@ -220,12 +271,17 @@ export const plugin: GamePlugin = {
           const hintBtn = document.createElement('button');
           hintBtn.textContent = 'Need a hint? 💡';
           hintBtn.setAttribute('data-test', 'hint-btn');
-          hintBtn.className = 'mx-auto block py-3 px-6 bg-yellow-100 text-yellow-800 font-bold rounded-full hover:bg-yellow-200 focus:ring-4 focus:ring-yellow-400 outline-none transition-colors border-2 border-yellow-300';
+          hintBtn.className =
+            'mx-auto block py-3 px-6 bg-yellow-100 text-yellow-800 font-bold rounded-full hover:bg-yellow-200 focus:ring-4 focus:ring-yellow-400 outline-none transition-colors border-2 border-yellow-300';
           hintBtn.addEventListener('click', () => {
             hintsUsed++;
             hintBtn.disabled = true;
             hintBtn.classList.add('opacity-50', 'cursor-not-allowed');
-            applyHintHighlight(leftWord === round.misspelling ? leftBtn : rightBtn, round.correct, round.misspelling);
+            applyHintHighlight(
+              leftWord === round.misspelling ? leftBtn : rightBtn,
+              round.correct,
+              round.misspelling,
+            );
           });
           content.appendChild(hintBtn);
         }
@@ -233,23 +289,27 @@ export const plugin: GamePlugin = {
         // Feedback Message area
         const feedbackArea = document.createElement('div');
         feedbackArea.setAttribute('data-test', 'feedback-message');
-        feedbackArea.className = 'text-2xl font-bold text-center h-12 flex items-center justify-center transition-opacity opacity-0';
+        feedbackArea.className =
+          'text-2xl font-bold text-center h-12 flex items-center justify-center transition-opacity opacity-0';
         content.appendChild(feedbackArea);
 
         if (state === 'PLAYING') {
-          announce(`Question ${currentRound + 1}. Find the correct spelling. Option 1: ${leftWord}. Option 2: ${rightWord}.`);
+          announce(
+            `Question ${currentRound + 1}. Find the correct spelling. Option 1: ${leftWord}. Option 2: ${rightWord}.`,
+          );
         }
       }
     }
 
     function createCard(text: string, isCorrect: boolean) {
       const btn = document.createElement('button');
-      btn.className = 'flex-1 bg-white rounded-3xl p-8 text-center shadow-[0_8px_0_0_rgba(0,0,0,0.1)] border-4 border-slate-200 hover:border-slate-300 transition-all focus:ring-8 focus:ring-lolaBlue-200 outline-none relative';
+      btn.className =
+        'flex-1 bg-white rounded-3xl p-8 text-center shadow-[0_8px_0_0_rgba(0,0,0,0.1)] border-4 border-slate-200 hover:border-slate-300 transition-all focus:ring-8 focus:ring-lolaBlue-200 outline-none relative';
       btn.style.minHeight = '120px';
       // data-error="true" marks the correct answer (per spec constraints)
       btn.setAttribute('data-error', isCorrect ? 'true' : 'false');
       btn.setAttribute('aria-label', `Word option: ${text}`);
-      
+
       let fontSize = 'text-4xl';
       if (level === 'medium') fontSize = 'text-3xl';
       if (level === 'hard') fontSize = 'text-2xl';
@@ -266,7 +326,7 @@ export const plugin: GamePlugin = {
 
       btn.addEventListener('click', () => {
         if (state !== 'PLAYING') return;
-        handleAnswer(isCorrect, btn, iconSpan, textSpan);
+        handleAnswer(isCorrect, btn, iconSpan);
       });
 
       return btn;
@@ -275,14 +335,13 @@ export const plugin: GamePlugin = {
     function diffWords(correct: string, error: string): boolean[] {
       // Returns boolean array indicating if letter in 'error' word is different
       const diffs = Array(error.length).fill(false);
-      let i = 0, j = 0;
       // Simple aligner assumption for highlight:
       if (correct.length === error.length) {
         for (let k = 0; k < correct.length; k++) {
           if (correct[k] !== error[k]) diffs[k] = true;
         }
       } else {
-        // Just highlight everything if lengths differ for simplicity in MVP, 
+        // Just highlight everything if lengths differ for simplicity in MVP,
         // or a basic diff. Let's just highlight all if lengths differ.
         return diffs.map(() => true);
       }
@@ -293,7 +352,7 @@ export const plugin: GamePlugin = {
       const span = btn.querySelector('[data-word-text]');
       if (!span) return;
       const diffs = diffWords(correctWord, errorWord);
-      
+
       span.innerHTML = '';
       for (let i = 0; i < errorWord.length; i++) {
         const charSpan = document.createElement('span');
@@ -322,7 +381,7 @@ export const plugin: GamePlugin = {
         const elapsed = now - timerStart;
         const remaining = Math.max(0, timerDuration - elapsed);
         const pct = (remaining / timerDuration) * 100;
-        
+
         bar.style.width = `${pct}%`;
         bar.setAttribute('data-elapsed', Math.floor(elapsed / 1000).toString());
 
@@ -340,7 +399,7 @@ export const plugin: GamePlugin = {
       if (state !== 'PLAYING') return;
       stopTimer();
       state = 'ROUND_FEEDBACK';
-      
+
       const correctBtn = content.querySelector('[data-error="true"]') as HTMLButtonElement | null;
       if (correctBtn) {
         correctBtn.classList.remove('border-slate-200');
@@ -349,7 +408,7 @@ export const plugin: GamePlugin = {
 
       const feedback = content.querySelector('[data-test="feedback-message"]') as HTMLElement;
       if (feedback) {
-        feedback.textContent = "Out of time!";
+        feedback.textContent = 'Out of time!';
         feedback.classList.remove('opacity-0');
         feedback.classList.add('text-orange-500');
       }
@@ -358,7 +417,7 @@ export const plugin: GamePlugin = {
       setTimeout(nextRound, 2000);
     }
 
-    function handleAnswer(isCorrect: boolean, btn: HTMLButtonElement, iconSpan: HTMLElement, textSpan: HTMLElement) {
+    function handleAnswer(isCorrect: boolean, btn: HTMLButtonElement, iconSpan: HTMLElement) {
       state = 'ROUND_FEEDBACK';
       stopTimer();
 
@@ -372,11 +431,12 @@ export const plugin: GamePlugin = {
         btn.style.boxShadow = '0 0 15px rgba(76, 222, 128, 0.5)';
         iconSpan.textContent = '✅';
         iconSpan.classList.remove('opacity-0');
-        
+
         const msgs = ['Nice!', 'You got it!', 'Great job!', 'Spot on!'];
         const msg = msgs[Math.floor(Math.random() * msgs.length)];
         feedback.textContent = msg;
-        feedback.className = 'text-2xl font-bold text-center h-12 flex items-center justify-center transition-opacity text-[#4cde80]';
+        feedback.className =
+          'text-2xl font-bold text-center h-12 flex items-center justify-center transition-opacity text-[#4cde80]';
         announce(`Correct! ${msg}`);
 
         setTimeout(nextRound, 1200);
@@ -388,7 +448,8 @@ export const plugin: GamePlugin = {
         iconSpan.classList.remove('opacity-0');
 
         feedback.textContent = "Let's look at the difference!";
-        feedback.className = 'text-2xl font-bold text-center h-12 flex items-center justify-center transition-opacity text-[#ff6b8a]';
+        feedback.className =
+          'text-2xl font-bold text-center h-12 flex items-center justify-center transition-opacity text-[#ff6b8a]';
         announce(`Incorrect. Let's look at the difference!`);
 
         // Highlight diff
@@ -431,7 +492,7 @@ export const plugin: GamePlugin = {
           gameId: 'spelling-detective',
           score: correctCount,
           startedAt,
-          completedAt
+          completedAt,
         });
       } else {
         state = 'PLAYING';

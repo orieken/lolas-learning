@@ -24,8 +24,14 @@ function findWordInGrid(grid, word) {
         for (let i = 0; i < W.length; i++) {
           const rr = r + d.dr * i;
           const cc = c + d.dc * i;
-          if (rr < 0 || rr >= rows || cc < 0 || cc >= cols) { ok = false; break; }
-          if ((grid[rr][cc] || '') !== W[i]) { ok = false; break; }
+          if (rr < 0 || rr >= rows || cc < 0 || cc >= cols) {
+            ok = false;
+            break;
+          }
+          if ((grid[rr][cc] || '') !== W[i]) {
+            ok = false;
+            break;
+          }
           coords.push({ row: rr, col: cc });
         }
         if (ok) results.push({ word: W, coords, direction: d.name });
@@ -36,4 +42,3 @@ function findWordInGrid(grid, word) {
 }
 
 module.exports = { findWordInGrid };
-

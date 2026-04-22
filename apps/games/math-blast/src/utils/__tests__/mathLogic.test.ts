@@ -1,5 +1,10 @@
 import { describe, it, expect } from 'vitest';
-import { generateQuestion, getNumberRangeForLevel, calculateScore, calculateNextTimer } from '../mathLogic';
+import {
+  generateQuestion,
+  getNumberRangeForLevel,
+  calculateScore,
+  calculateNextTimer,
+} from '../mathLogic';
 
 describe('mathLogic Utilities', () => {
   it('getNumberRangeForLevel scales correctly', () => {
@@ -14,8 +19,8 @@ describe('mathLogic Utilities', () => {
     expect(q.options.length).toBe(4);
     expect(q.options.includes(q.correctAnswer)).toBe(true);
 
-    const wrongOptions = q.options.filter(o => o !== q.correctAnswer);
-    wrongOptions.forEach(opt => {
+    const wrongOptions = q.options.filter((o) => o !== q.correctAnswer);
+    wrongOptions.forEach((opt) => {
       const diff = Math.abs(opt - q.correctAnswer);
       expect(diff).toBeLessThanOrEqual(3);
       expect(diff).toBeGreaterThan(0);

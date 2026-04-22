@@ -31,24 +31,24 @@ export function createAudioManager(): AudioManager {
 
   function speak(text: string, rate = 0.9) {
     if (muted || !synth) return;
-    
+
     // Cancel any ongoing speech
     synth.cancel();
-    
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = rate;
     utterance.pitch = 1.1; // Slightly higher pitch for child-friendliness
     utterance.volume = 1;
-    
+
     // Try to use a friendly voice
     const voices = synth.getVoices();
     const preferredVoice = voices.find(
-      (v) => v.name.includes('Samantha') || v.name.includes('Google') || v.lang.startsWith('en')
+      (v) => v.name.includes('Samantha') || v.name.includes('Google') || v.lang.startsWith('en'),
     );
     if (preferredVoice) {
       utterance.voice = preferredVoice;
     }
-    
+
     synth.speak(utterance);
   }
 
@@ -75,7 +75,9 @@ export function createAudioManager(): AudioManager {
     playCorrect,
     playIncorrect,
     playInstruction,
-    setMuted: (m: boolean) => { muted = m; },
+    setMuted: (m: boolean) => {
+      muted = m;
+    },
     isMuted: () => muted,
   };
 }
@@ -85,21 +87,26 @@ export function createAudioManager(): AudioManager {
  */
 export function playTone(frequency: number, duration: number, type: OscillatorType = 'sine') {
   if (typeof window === 'undefined') return;
-  
+
   try {
-    const audioCtx = new (window.AudioContext || (window as any).webkitAudioContext)();
+    interface WindowWithWebkit extends Window {
+      webkitAudioContext: typeof AudioContext;
+    }
+    const audioCtx = new (
+      window.AudioContext || (window as unknown as WindowWithWebkit).webkitAudioContext
+    )();
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
-    
+
     oscillator.connect(gainNode);
     gainNode.connect(audioCtx.destination);
-    
+
     oscillator.frequency.value = frequency;
     oscillator.type = type;
-    
+
     gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
     gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
-    
+
     oscillator.start(audioCtx.currentTime);
     oscillator.stop(audioCtx.currentTime + duration);
   } catch {

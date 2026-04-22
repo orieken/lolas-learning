@@ -35,7 +35,7 @@ const substitutions: Record<string, string[]> = {
 function generateMisspelling(
   word: string,
   allowedTypes: MisspellType[],
-  rng: ReturnType<typeof makeRng>
+  rng: ReturnType<typeof makeRng>,
 ): { misspelling: string; errorType: MisspellType } {
   // Try up to 10 times to get a distinct misspelled word
   for (let attempt = 0; attempt < 10; attempt++) {
@@ -44,18 +44,12 @@ function generateMisspelling(
 
     if (type === 'transposition' && word.length > 1) {
       const idx = Math.floor(rng.next() * (word.length - 1));
-      result =
-        word.slice(0, idx) +
-        word[idx + 1] +
-        word[idx] +
-        word.slice(idx + 2);
-    } 
-    else if (type === 'omission' && word.length > 2) {
+      result = word.slice(0, idx) + word[idx + 1] + word[idx] + word.slice(idx + 2);
+    } else if (type === 'omission' && word.length > 2) {
       // Avoid dropping the first letter to keep the word shape somewhat similar
       const idx = 1 + Math.floor(rng.next() * (word.length - 1));
       result = word.slice(0, idx) + word.slice(idx + 1);
-    } 
-    else if (type === 'substitution') {
+    } else if (type === 'substitution') {
       // Find indices of characters that have specific visual similarity substitutions
       const specificOpts = [];
       const genericOpts = [];
@@ -63,9 +57,14 @@ function generateMisspelling(
         if (substitutions[word[i]]) specificOpts.push(i);
         else genericOpts.push(i);
       }
-      
+
       // Prefer substituting letters with known confusions (e.g. b/d) if available
-      const candidates = specificOpts.length > 0 && rng.next() > 0.3 ? specificOpts : (genericOpts.length > 0 ? genericOpts : [0]);
+      const candidates =
+        specificOpts.length > 0 && rng.next() > 0.3
+          ? specificOpts
+          : genericOpts.length > 0
+            ? genericOpts
+            : [0];
       const idx = candidates[Math.floor(rng.next() * candidates.length)];
       const char = word[idx];
 
@@ -79,12 +78,10 @@ function generateMisspelling(
         const subChar = generic[Math.floor(rng.next() * generic.length)];
         result = word.slice(0, idx) + subChar + word.slice(idx + 1);
       }
-    } 
-    else if (type === 'doubling' && word.length > 2) {
+    } else if (type === 'doubling' && word.length > 2) {
       const idx = 1 + Math.floor(rng.next() * (word.length - 1));
       result = word.slice(0, idx) + word[idx] + word.slice(idx);
-    } 
-    else if (type === 'insertion') {
+    } else if (type === 'insertion') {
       const idx = 1 + Math.floor(rng.next() * (word.length - 1));
       const charToInsert = word[Math.max(0, idx - 1)]; // Duplicate a nearby char
       result = word.slice(0, idx) + charToInsert + word.slice(idx);
@@ -103,7 +100,7 @@ function generateMisspelling(
 
 export function makeWordRound(
   level: DifficultyLevel,
-  opts: { count?: number; seed?: number } = {}
+  opts: { count?: number; seed?: number } = {},
 ): WordEntry[] {
   const { count = 10, seed = 42 } = opts;
   const rng = makeRng(seed);
@@ -135,7 +132,7 @@ export function makeWordRound(
 
   const selectedWords = shuffledWords.slice(0, count);
 
-  return selectedWords.map(correct => {
+  return selectedWords.map((correct) => {
     // For easy level, try to stick to transposition unless it's impossible (length < 3)
     let types = allowedTypes;
     if (level === 'easy') {
@@ -143,7 +140,7 @@ export function makeWordRound(
     }
 
     const { misspelling, errorType } = generateMisspelling(correct, types, rng);
-    
+
     return {
       correct,
       misspelling,

@@ -19,8 +19,15 @@ export interface GeneratorOptions {
   random?: () => number; // optional RNG for deterministic tests
 }
 
-export interface Coord { row: number; col: number }
-export interface Placement { word: string; coords: Coord[]; direction: Direction }
+export interface Coord {
+  row: number;
+  col: number;
+}
+export interface Placement {
+  word: string;
+  coords: Coord[];
+  direction: Direction;
+}
 export interface GridResult {
   rows: number;
   cols: number;
@@ -50,14 +57,22 @@ function buildAllowedDirs(opts: Required<GeneratorOptions>): Direction[] {
 
 function dirDelta(d: Direction): { dr: number; dc: number } {
   switch (d) {
-    case 'right': return { dr: 0, dc: 1 };
-    case 'left': return { dr: 0, dc: -1 };
-    case 'down': return { dr: 1, dc: 0 };
-    case 'up': return { dr: -1, dc: 0 };
-    case 'down-right': return { dr: 1, dc: 1 };
-    case 'down-left': return { dr: 1, dc: -1 };
-    case 'up-right': return { dr: -1, dc: 1 };
-    case 'up-left': return { dr: -1, dc: -1 };
+    case 'right':
+      return { dr: 0, dc: 1 };
+    case 'left':
+      return { dr: 0, dc: -1 };
+    case 'down':
+      return { dr: 1, dc: 0 };
+    case 'up':
+      return { dr: -1, dc: 0 };
+    case 'down-right':
+      return { dr: 1, dc: 1 };
+    case 'down-left':
+      return { dr: 1, dc: -1 };
+    case 'up-right':
+      return { dr: -1, dc: 1 };
+    case 'up-left':
+      return { dr: -1, dc: -1 };
   }
 }
 
@@ -65,8 +80,16 @@ function randInt(rng: () => number, min: number, maxExclusive: number) {
   return Math.floor(rng() * (maxExclusive - min)) + min;
 }
 
-export function generateGrid(words: string[], rows: number, cols: number, options?: GeneratorOptions): GridResult {
-  const opts: Required<GeneratorOptions> = { ...DEFAULT_OPTIONS, ...(options || {}) } as Required<GeneratorOptions>;
+export function generateGrid(
+  words: string[],
+  rows: number,
+  cols: number,
+  options?: GeneratorOptions,
+): GridResult {
+  const opts: Required<GeneratorOptions> = {
+    ...DEFAULT_OPTIONS,
+    ...(options || {}),
+  } as Required<GeneratorOptions>;
   const rng = opts.random;
   const allowed = buildAllowedDirs(opts);
 
@@ -107,7 +130,8 @@ export function generateGrid(words: string[], rows: number, cols: number, option
         const c = startCol + dc * i;
         const cell = grid[r][c];
         if (cell !== null && cell !== word[i]) {
-          ok = false; break;
+          ok = false;
+          break;
         }
         coords.push({ row: r, col: c });
       }
@@ -185,8 +209,14 @@ export function findWordInGrid(grid: string[][], word: string): Placement[] {
         for (let i = 0; i < W.length; i++) {
           const rr = r + d.dr * i;
           const cc = c + d.dc * i;
-          if (rr < 0 || rr >= rows || cc < 0 || cc >= cols) { ok = false; break; }
-          if (grid[rr][cc] !== W[i]) { ok = false; break; }
+          if (rr < 0 || rr >= rows || cc < 0 || cc >= cols) {
+            ok = false;
+            break;
+          }
+          if (grid[rr][cc] !== W[i]) {
+            ok = false;
+            break;
+          }
           coords.push({ row: rr, col: cc });
         }
         if (ok) results.push({ word: W, coords, direction: d.name });
@@ -196,4 +226,3 @@ export function findWordInGrid(grid: string[][], word: string): Placement[] {
 
   return results;
 }
-

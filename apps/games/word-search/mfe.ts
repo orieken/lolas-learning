@@ -1,7 +1,7 @@
 // Microfrontend entry for word search
 import { generateGrid } from './lib/generator';
 
-export type MountOpts = { container?: HTMLElement | null }
+export type MountOpts = { container?: HTMLElement | null };
 
 let rootEl: HTMLElement | null = null;
 let cleanup: (() => void) | null = null;
@@ -73,16 +73,20 @@ export function mount(opts: MountOpts = {}): void {
   const todoLis: HTMLElement[] = [];
   for (let i = 0; i < todoNodeList.length; i++) todoLis.push(todoNodeList[i] as HTMLElement);
   const todoHandlers: ((ev: Event) => void)[] = [];
-  todoLis.forEach(li => {
+  todoLis.forEach((li) => {
     const h = () => li.classList.toggle('completed');
     todoHandlers.push(h);
     li.addEventListener('click', h);
   });
 
   // generate puzzle using generator
-  const words = ['MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY'];
+  const words = ['MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'];
   const gridEl = rootEl.querySelector('.grid') as HTMLElement;
-  const result = generateGrid(words, 5, 12, { allowBackwards: false, allowDiagonal: false, random: () => 0.5 });
+  const result = generateGrid(words, 5, 12, {
+    allowBackwards: false,
+    allowDiagonal: false,
+    random: () => 0.5,
+  });
 
   // render cells
   for (let r = 0; r < result.rows; r++) {
@@ -107,14 +111,14 @@ export function mount(opts: MountOpts = {}): void {
   const cellNodeList = rootEl.querySelectorAll('.cell');
   const cells: HTMLElement[] = [];
   for (let i = 0; i < cellNodeList.length; i++) cells.push(cellNodeList[i] as HTMLElement);
-  const handlers: ((ev: Event)=>void)[] = [];
-  cells.forEach(cell => {
+  const handlers: ((ev: Event) => void)[] = [];
+  cells.forEach((cell) => {
     const h = (_ev: Event) => {
       if (cell.classList.contains('found')) return;
       const idx = state.selected.indexOf(cell);
       if (idx !== -1) {
         // unselect
-        state.selected.splice(idx,1);
+        state.selected.splice(idx, 1);
         cell.classList.remove('selected');
         cell.style.background = 'white';
         return;
@@ -125,10 +129,10 @@ export function mount(opts: MountOpts = {}): void {
       state.selected.push(cell);
       // validate contiguous
       if (state.selected.length > 1) {
-        const rows = state.selected.map(s => Number(s.dataset.row));
-        const colsArr = state.selected.map(s => Number(s.dataset.col));
-        const allSameRow = rows.every(r => r === rows[0]);
-        const allSameCol = colsArr.every(c => c === colsArr[0]);
+        const rows = state.selected.map((s) => Number(s.dataset.row));
+        const colsArr = state.selected.map((s) => Number(s.dataset.col));
+        const allSameRow = rows.every((r) => r === rows[0]);
+        const allSameCol = colsArr.every((c) => c === colsArr[0]);
         if (!allSameRow && !allSameCol) {
           const last = state.selected.pop()!;
           last.classList.remove('selected');
@@ -137,7 +141,7 @@ export function mount(opts: MountOpts = {}): void {
         }
         if (allSameRow) {
           const sc = uniqueSorted(colsArr);
-          if (sc[sc.length-1] - sc[0] + 1 !== sc.length) {
+          if (sc[sc.length - 1] - sc[0] + 1 !== sc.length) {
             const last = state.selected.pop()!;
             last.classList.remove('selected');
             last.style.background = 'white';
@@ -146,7 +150,7 @@ export function mount(opts: MountOpts = {}): void {
         }
         if (allSameCol) {
           const sr = uniqueSorted(rows);
-          if (sr[sr.length-1] - sr[0] + 1 !== sr.length) {
+          if (sr[sr.length - 1] - sr[0] + 1 !== sr.length) {
             const last = state.selected.pop()!;
             last.classList.remove('selected');
             last.style.background = 'white';
@@ -167,7 +171,8 @@ export function mount(opts: MountOpts = {}): void {
 
   cleanup = () => {
     printBtn?.removeEventListener('click', onPrint);
-    for (let i = 0; i < todoLis.length; i++) todoLis[i].removeEventListener('click', todoHandlers[i]);
+    for (let i = 0; i < todoLis.length; i++)
+      todoLis[i].removeEventListener('click', todoHandlers[i]);
     for (let i = 0; i < cells.length; i++) cells[i].removeEventListener('click', handlers[i]);
     clearBtn?.removeEventListener('click', onClear);
     if (rootEl && rootEl.parentElement) rootEl.parentElement.removeChild(rootEl);
@@ -186,8 +191,11 @@ function uniqueSorted(arr: number[]): number[] {
   const out: number[] = [];
   for (let i = 0; i < arr.length; i++) {
     const v = arr[i];
-    if (!seen[v]) { seen[v] = true; out.push(v); }
+    if (!seen[v]) {
+      seen[v] = true;
+      out.push(v);
+    }
   }
-  out.sort((a,b)=>a-b);
+  out.sort((a, b) => a - b);
   return out;
 }

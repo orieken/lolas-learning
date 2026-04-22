@@ -15,7 +15,7 @@ const router = createRouter({
     { path: '/play', name: 'play', component: GameView },
     { path: '/end', name: 'end', component: EndView },
     { path: '/badges', name: 'badges', component: GalleryView },
-  ]
+  ],
 });
 
 export default router;

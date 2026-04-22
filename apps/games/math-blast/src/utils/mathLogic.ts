@@ -35,7 +35,7 @@ export const generateQuestion = (level: number): MathQuestion => {
   while (optionsSet.size < 4) {
     const variance = Math.floor(Math.random() * 7) - 3; // -3 to +3
     if (variance === 0) continue;
-    
+
     // Ensure we don't generate negative options if we only want positive numbers
     // But since it's addition/subtraction of 1-20, max correct answer is 40.
     const wrongAnswer = correctAnswer + variance;
@@ -57,7 +57,12 @@ export const calculateScore = (streak: number): number => {
   return base;
 };
 
-export const calculateNextTimer = (currentTimer: number, isCorrect: boolean, consecutiveCorrect: number, consecutiveWrong: number): number => {
+export const calculateNextTimer = (
+  currentTimer: number,
+  isCorrect: boolean,
+  consecutiveCorrect: number,
+  consecutiveWrong: number,
+): number => {
   let newTimer = currentTimer;
   if (isCorrect && consecutiveCorrect > 0 && consecutiveCorrect % 3 === 0) {
     newTimer -= 0.5;

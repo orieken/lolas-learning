@@ -12,7 +12,9 @@ async function validate(filePath: string) {
   const report: { sectionIndex: number; missing: string[] }[] = [];
 
   sections.forEach((section, si) => {
-    const words = Array.from(section.querySelectorAll('.word-item')).map(w => w.textContent?.trim().toUpperCase() || '');
+    const words = Array.from(section.querySelectorAll('.word-item')).map(
+      (w) => w.textContent?.trim().toUpperCase() || '',
+    );
     const cellEls = Array.from(section.querySelectorAll('.grid .cell'));
     const total = cellEls.length;
     if (!total) return;
@@ -20,7 +22,7 @@ async function validate(filePath: string) {
     let cols = 12;
     const grid = section.querySelector('.grid');
     if (grid) {
-      const style = dom.window.getComputedStyle(grid as any);
+      const style = dom.window.getComputedStyle(grid as Element);
       const t = style.getPropertyValue('grid-template-columns');
       if (t) cols = t.split(' ').length || cols;
     }
@@ -37,7 +39,7 @@ async function validate(filePath: string) {
     }
 
     const missing: string[] = [];
-    words.forEach(w => {
+    words.forEach((w) => {
       if (!w) return;
       const placements = findWordInGrid(matrix, w);
       if (placements.length === 0) missing.push(w);
@@ -50,12 +52,18 @@ async function validate(filePath: string) {
     process.exit(0);
   }
   console.error('Missing words in puzzles:');
-  report.forEach(r => console.error(`Section ${r.sectionIndex}: missing ${r.missing.join(', ')}`));
+  report.forEach((r) =>
+    console.error(`Section ${r.sectionIndex}: missing ${r.missing.join(', ')}`),
+  );
   process.exit(2);
 }
 
 if (require.main === module) {
-  const arg = process.argv[2] || path.resolve(__dirname, '../apps/games/word-search/word_search_puzzles.html');
-  validate(arg).catch(err => { console.error(err); process.exit(3); });
+  const arg =
+    process.argv[2] ||
+    path.resolve(__dirname, '../apps/games/word-search/word_search_puzzles.html');
+  validate(arg).catch((err) => {
+    console.error(err);
+    process.exit(3);
+  });
 }
-

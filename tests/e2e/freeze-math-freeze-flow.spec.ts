@@ -17,7 +17,6 @@ test('FreezeMath: freeze overlay pauses timer and resume continues', async ({ pa
   await expect(timer).toBeVisible();
   // let timer run a little
   await page.waitForTimeout(600);
-  const beforeFreeze = parseSeconds(await timer.textContent());
 
   await page.getByTestId('btn-freeze').click();
   const overlay = page.getByTestId('freeze-overlay');

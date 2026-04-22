@@ -4,6 +4,7 @@ module.exports = {
   env: {
     es2022: true,
     node: true,
+    browser: true,
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -17,11 +18,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
   ],
-  ignorePatterns: [
-    '**/dist/**',
-    '**/node_modules/**',
-    '**/coverage/**',
-  ],
+  ignorePatterns: ['**/dist/**', '**/node_modules/**', '**/coverage/**'],
   rules: {
     'prettier/prettier': 'warn',
     '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
@@ -30,6 +27,12 @@ module.exports = {
     {
       files: ['**/*.config.{js,cjs,ts}'],
       env: { node: true },
+    },
+    {
+      files: ['tools/**/*.js', 'packages/**/*.js'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
     },
     {
       files: ['**/*.ts', '**/*.tsx'],

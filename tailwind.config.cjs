@@ -36,8 +36,8 @@ module.exports = {
         'pulse-scale': 'pulse_scale 2s ease-in-out infinite',
       },
       boxShadow: {
-        'card': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'button': '0 4px 0 0 rgba(0, 0, 0, 0.2)',
+        card: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+        button: '0 4px 0 0 rgba(0, 0, 0, 0.2)',
         'button-active': '0 0 0 0 rgba(0, 0, 0, 0.2)',
       },
       fontFamily: {

@@ -1,12 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import {
-  createCoreApi,
-  CoreEventAdapter,
-  Session,
-  PrintableDef,
-  CoreAPI,
-  GamePlugin,
-} from './index';
+import { createCoreApi, CoreEventAdapter, Session, PrintableDef } from './index';
 
 // Type-level contract tests
 const _testSession: Session = {
@@ -18,12 +11,6 @@ const _testPrintable: PrintableDef = {
   id: 'print1',
   title: 'Test PDF',
   makePdf: () => new Blob(),
-};
-const _testPlugin: GamePlugin = {
-  id: 'game1',
-  title: 'Game',
-  mount: (el, core) => {},
-  unmount: () => {},
 };
 
 // Runtime tests

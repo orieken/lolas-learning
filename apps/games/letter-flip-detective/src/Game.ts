@@ -16,7 +16,7 @@ const DYSLEXIC_FONT_CSS = `
 
 function injectStyles() {
   if (document.getElementById('letter-flip-styles')) return;
-  
+
   const style = document.createElement('style');
   style.id = 'letter-flip-styles';
   style.textContent = `
@@ -183,13 +183,13 @@ function injectStyles() {
 export const plugin: GamePlugin = {
   id: 'letter-flip-detective',
   title: 'Letter Flip Detective',
-  
+
   async mount(el: HTMLElement, core: CoreAPI) {
     injectStyles();
-    
+
     const startedAt = Date.now();
     const audio = createAudioManager();
-    
+
     // Clear and set up root
     el.innerHTML = '';
     const root = document.createElement('div');
@@ -210,20 +210,20 @@ export const plugin: GamePlugin = {
     const lines = makeFlipLines({ lines: total, seed: Date.now() % 10000 });
 
     // --- UI Elements ---
-    
+
     // Header with mute button
     const header = document.createElement('div');
     header.style.display = 'flex';
     header.style.justifyContent = 'space-between';
     header.style.alignItems = 'center';
-    
+
     const title = document.createElement('h2');
     title.textContent = '🔍 Letter Flip Detective';
     title.style.margin = '0';
     title.style.fontSize = '22px';
     title.style.color = '#4B5563';
     header.appendChild(title);
-    
+
     const muteBtn = document.createElement('button');
     muteBtn.className = 'mute-btn';
     muteBtn.textContent = '🔊';
@@ -240,7 +240,7 @@ export const plugin: GamePlugin = {
     const instruction = document.createElement('div');
     instruction.className = 'instruction-box';
     instruction.setAttribute('data-test', 'game-instructions');
-    instruction.textContent = 'Find the sneaky letter that doesn\'t belong!';
+    instruction.textContent = "Find the sneaky letter that doesn't belong!";
     root.appendChild(instruction);
 
     // Status (Line X of Y)
@@ -281,7 +281,7 @@ export const plugin: GamePlugin = {
     root.appendChild(audioBtn);
 
     // --- Game Logic ---
-    
+
     function showHint(line: FlipLine) {
       const hint = getHintForPair(line.pair);
       hintBox.innerHTML = `💡 <strong>Hint:</strong> ${hint}`;
@@ -297,7 +297,7 @@ export const plugin: GamePlugin = {
       letterGrid.innerHTML = '';
       letterGrid.setAttribute('data-error-index', String(line.errorIndex));
       hideHint();
-      
+
       let attempts = 0;
 
       line.items.forEach((letter, idx) => {
@@ -306,7 +306,7 @@ export const plugin: GamePlugin = {
         btn.className = 'letter-btn';
         btn.textContent = letter;
         btn.setAttribute('aria-label', `Letter ${idx + 1}: ${letter}`);
-        
+
         if (idx === line.errorIndex) {
           btn.setAttribute('data-error', 'true');
         }
@@ -322,10 +322,10 @@ export const plugin: GamePlugin = {
             correct++;
             btn.classList.add('correct', 'flip-animation');
             playSuccessChime();
-            
+
             message.textContent = '✨ Great job! You found it!';
             message.className = 'message-box success';
-            
+
             // Brief pause then advance
             setTimeout(() => {
               current++;
@@ -341,15 +341,15 @@ export const plugin: GamePlugin = {
             btn.classList.add('incorrect');
             playTryAgainTone();
             audio.playIncorrect();
-            
+
             message.textContent = 'Not quite - try again!';
             message.className = 'message-box retry';
-            
+
             // Show hint after 2 wrong attempts
             if (attempts >= 2) {
               showHint(line);
             }
-            
+
             // Remove shake class after animation
             setTimeout(() => {
               btn.classList.remove('incorrect');
@@ -363,7 +363,7 @@ export const plugin: GamePlugin = {
       status.textContent = `Line ${current + 1} of ${total} • Score: ${correct}`;
       message.textContent = '';
       message.className = 'message-box';
-      
+
       // Play instruction on first line
       if (current === 0) {
         setTimeout(() => audio.playInstruction(), 500);
@@ -372,12 +372,12 @@ export const plugin: GamePlugin = {
 
     function finishGame() {
       const completedAt = Date.now();
-      
+
       // Award points
       if (correct > 0) {
         core.awardPoints(correct);
       }
-      
+
       // Save session
       const session: Session = {
         id: `sess-${completedAt}`,
@@ -393,28 +393,33 @@ export const plugin: GamePlugin = {
       hintBox.style.display = 'none';
       audioBtn.style.display = 'none';
       message.textContent = '';
-      
+
       const finishedBox = document.createElement('div');
       finishedBox.className = 'finished-box';
-      
+
       const emoji = correct === total ? '🏆' : correct >= 7 ? '⭐' : '👍';
-      const msg = correct === total 
-        ? 'Perfect! You\'re a Letter Detective Master!' 
-        : correct >= 7 
-          ? 'Great work! Keep practicing!' 
-          : 'Good effort! Try again to improve!';
-      
+      const msg =
+        correct === total
+          ? "Perfect! You're a Letter Detective Master!"
+          : correct >= 7
+            ? 'Great work! Keep practicing!'
+            : 'Good effort! Try again to improve!';
+
       finishedBox.innerHTML = `
         <h2>${emoji} Finished!</h2>
         <p>Score: ${correct}/${total}</p>
         <p style="font-size: 16px; margin-top: 12px;">${msg}</p>
       `;
-      
+
       letterGrid.parentElement?.insertBefore(finishedBox, letterGrid);
       status.textContent = `Finished! Score ${correct}/${total}`;
-      
+
       // Celebratory audio
-      audio.speak(correct === total ? 'Perfect score! Amazing!' : `Great job! You got ${correct} out of ${total}!`);
+      audio.speak(
+        correct === total
+          ? 'Perfect score! Amazing!'
+          : `Great job! You got ${correct} out of ${total}!`,
+      );
     }
 
     // Start the game

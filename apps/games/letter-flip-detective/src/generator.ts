@@ -4,15 +4,15 @@ export type FlipLine = {
   items: string[];
   errorIndex: number;
   pair: LetterPair;
-  dominant: string;  // the "correct" letter filling most slots
-  sneaky: string;    // the odd one out
+  dominant: string; // the "correct" letter filling most slots
+  sneaky: string; // the odd one out
 };
 
 export type MakeFlipLinesOptions = {
   lines?: number;
   lineLength?: number;
   seed?: number;
-  pairs?: LetterPair[];  // which confusion pairs to include
+  pairs?: LetterPair[]; // which confusion pairs to include
 };
 
 // Letter pair definitions with hints
@@ -53,12 +53,7 @@ function makeRng(seed: number) {
  * Each line has one "sneaky" letter that doesn't match the others.
  */
 export function makeFlipLines(opts: MakeFlipLinesOptions = {}): FlipLine[] {
-  const {
-    lines = 10,
-    lineLength = 6,
-    seed = 42,
-    pairs = ['bd', 'pq', 'mw', 'nu'],
-  } = opts;
+  const { lines = 10, lineLength = 6, seed = 42, pairs = ['bd', 'pq', 'mw', 'nu'] } = opts;
 
   if (!Number.isInteger(lines) || lines <= 0) {
     throw new Error('lines must be a positive integer');

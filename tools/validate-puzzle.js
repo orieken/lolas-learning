@@ -3,23 +3,14 @@ const fs = require('fs');
 const path = require('path');
 const { findWordInGrid } = require('./solver');
 
-function extractBetween(text, startTag, endTag) {
-  const s = text.indexOf(startTag);
-  if (s === -1) return [];
-  const section = text.slice(s);
-  const parts = section.split(endTag)[0];
-  return [parts, section.slice(parts.length + endTag.length)];
-}
-
 function parseHTMLFile(filePath) {
   const html = fs.readFileSync(filePath, 'utf8');
   // naive parse: split into puzzle-section blocks
   const sections = [];
   const openTag = '<div class="puzzle-section"';
   let idx = 0;
-  while (true) {
-    const start = html.indexOf(openTag, idx);
-    if (start === -1) break;
+  let start;
+  while ((start = html.indexOf(openTag, idx)) !== -1) {
     const after = html.slice(start);
     const splitMarker = '\n        </div>\n\n        <!--';
     let endIdx = after.indexOf(splitMarker);
@@ -40,7 +31,7 @@ function parseHTMLFile(filePath) {
 
 function extractWords(sectionHtml) {
   const words = [];
-  const re = /<div[^>]*class=\"word-item\"[^>]*>([^<]+)<\/div>/gi;
+  const re = /<div[^>]*class="word-item"[^>]*>([^<]+)<\/div>/gi;
   let m;
   while ((m = re.exec(sectionHtml)) !== null) {
     words.push(m[1].trim().toUpperCase());
@@ -50,7 +41,7 @@ function extractWords(sectionHtml) {
 
 function extractGrid(sectionHtml) {
   const cells = [];
-  const re = /<div[^>]*class=\"cell\"[^>]*>([^<]*)<\/div>/gi;
+  const re = /<div[^>]*class="cell"[^>]*>([^<]*)<\/div>/gi;
   let m;
   while ((m = re.exec(sectionHtml)) !== null) {
     cells.push((m[1] || '').trim().toUpperCase());
@@ -78,7 +69,7 @@ function validate(filePath) {
     }
 
     const missing = [];
-    words.forEach(w => {
+    words.forEach((w) => {
       if (!w) return;
       const placements = findWordInGrid(matrix, w);
       if (placements.length === 0) missing.push(w);
@@ -91,11 +82,15 @@ function validate(filePath) {
     process.exit(0);
   }
   console.error('Missing words in puzzles:');
-  report.forEach(r => console.error(`Section ${r.sectionIndex}: missing ${r.missing.join(', ')}`));
+  report.forEach((r) =>
+    console.error(`Section ${r.sectionIndex}: missing ${r.missing.join(', ')}`),
+  );
   process.exit(2);
 }
 
 if (require.main === module) {
-  const arg = process.argv[2] || path.resolve(__dirname, '../apps/games/word-search/word_search_puzzles.html');
+  const arg =
+    process.argv[2] ||
+    path.resolve(__dirname, '../apps/games/word-search/word_search_puzzles.html');
   validate(arg);
 }

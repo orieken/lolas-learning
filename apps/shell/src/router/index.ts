@@ -13,14 +13,22 @@ import GameMathBlast from '../views/GameMathBlast.vue';
 
 const routes: RouteRecordRaw[] = [
   { path: '/game/math-blast', name: 'math-blast', component: GameMathBlast },
-  { path: '/game/spelling-detective', name: 'spelling-detective', component: GameSpellingDetective },
+  {
+    path: '/game/spelling-detective',
+    name: 'spelling-detective',
+    component: GameSpellingDetective,
+  },
   { path: '/game/freeze-math', name: 'freeze-math', component: GameFreezeMath },
   { path: '/', name: 'home', component: HomeView },
   { path: '/game/number-detective', name: 'number-detective', component: GameNumberDetective },
   { path: '/game/letter-detective', name: 'letter-detective', component: GameLetterDetective },
   { path: '/game/word-detective', name: 'word-detective', component: GameWordDetective },
   { path: '/game/word-search', name: 'word-search', component: GameWordSearch },
-  { path: '/game/letter-flip-detective', name: 'letter-flip-detective', component: GameLetterFlipDetective },
+  {
+    path: '/game/letter-flip-detective',
+    name: 'letter-flip-detective',
+    component: GameLetterFlipDetective,
+  },
   { path: '/rewards', name: 'rewards', component: RewardsView },
   { path: '/print', name: 'print', component: PrintCenter },
   { path: '/proto1', component: () => import('../views/Prototype1.vue') },

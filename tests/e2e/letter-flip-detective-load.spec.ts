@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-async function playPerfectRun(page: any) {
+async function playPerfectRun(page: import('@playwright/test').Page) {
   for (let i = 0; i < 10; i++) {
     const errorBtn = page.locator('[data-test="game-root"] [data-error="true"]');
     await expect(errorBtn).toBeVisible();
@@ -36,8 +36,10 @@ test('Letter Flip Detective: shows hint after two wrong attempts', async ({ page
   await expect(gameRoot).toBeVisible({ timeout: 20000 });
 
   // Find a wrong button (not the error)
-  const wrongBtn = page.locator('[data-test="game-root"] button.letter-btn:not([data-error="true"])').first();
-  
+  const wrongBtn = page
+    .locator('[data-test="game-root"] button.letter-btn:not([data-error="true"])')
+    .first();
+
   // Click wrong twice
   await wrongBtn.click();
   await page.waitForTimeout(500);
@@ -60,14 +62,14 @@ test('Letter Flip Detective: mute button toggles audio state', async ({ page }) 
 
   const muteBtn = page.locator('.mute-btn');
   await expect(muteBtn).toBeVisible();
-  
+
   // Initially should show speaker icon
   await expect(muteBtn).toHaveText('🔊');
-  
+
   // Click to mute
   await muteBtn.click();
   await expect(muteBtn).toHaveText('🔇');
-  
+
   // Click to unmute
   await muteBtn.click();
   await expect(muteBtn).toHaveText('🔊');
