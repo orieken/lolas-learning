@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import { withZephyr } from 'vite-plugin-zephyr';
 import vue from '@vitejs/plugin-vue';
+import path from 'node:path';
 
 import tailwindcss from '@tailwindcss/vite';
 
