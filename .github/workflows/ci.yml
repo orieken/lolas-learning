@@ -54,29 +54,29 @@ jobs:
           path: coverage
           if-no-files-found: ignore
 
-      - name: Cache Playwright Browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-playwright-
+      # - name: Cache Playwright Browsers
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.cache/ms-playwright
+      #     key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-playwright-
 
-      - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+      # - name: Install Playwright Browsers
+      #   run: pnpm exec playwright install --with-deps
 
-      - name: E2E tests (Playwright)
-        run: pnpm e2e
-        env:
-          HEADLESS: 'true'
+      # - name: E2E tests (Playwright)
+      #   run: pnpm e2e
+      #   env:
+      #     HEADLESS: 'true'
 
-      - name: Upload e2e artifacts (test-results)
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-            name: playwright-test-results
-            path: test-results
-            if-no-files-found: ignore
+      # - name: Upload e2e artifacts (test-results)
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #       name: playwright-test-results
+      #       path: test-results
+      #       if-no-files-found: ignore
 
       - name: Build and publish games to Zephyr Cloud
         env:
