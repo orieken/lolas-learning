@@ -32,8 +32,10 @@ jobs:
       - name: Install deps
         run: pnpm install --frozen-lockfile
 
-      - name: Build core-sdk
-        run: pnpm --filter @lolas/core-sdk build
+      - name: Build shared packages
+        run: |
+          pnpm --filter @lolas/core-sdk build
+          pnpm --filter @lolas/ui-kit build
 
       - name: Typecheck
         run: pnpm typecheck
@@ -75,9 +77,6 @@ jobs:
             name: playwright-test-results
             path: test-results
             if-no-files-found: ignore
-
-      - name: Build ui-kit
-        run: pnpm --filter @lolas/ui-kit build
 
       - name: Build and publish games to Zephyr Cloud
         env:
