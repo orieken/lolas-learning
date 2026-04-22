@@ -105,26 +105,26 @@ jobs:
           path: apps/shell/dist
           if-no-files-found: warn
 
-      - name: Netlify Deploy (Production)
-        if: github.ref == 'refs/heads/main' && !github.event.pull_request
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: |
-          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-            npx netlify deploy --dir=apps/shell/dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
-          else
-            echo "Netlify secrets missing; skipping deploy";
-          fi
+      # - name: Netlify Deploy (Production)
+      #   if: github.ref == 'refs/heads/main' && !github.event.pull_request
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #   run: |
+      #     if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+      #       npx netlify deploy --dir=apps/shell/dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
+      #     else
+      #       echo "Netlify secrets missing; skipping deploy";
+      #     fi
 
-      - name: Netlify Deploy (Preview)
-        if: github.event_name == 'pull_request'
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-        run: |
-          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-            npx netlify deploy --dir=apps/shell/dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
-          else
-            echo "Netlify secrets missing; skipping preview deploy";
-          fi
+      # - name: Netlify Deploy (Preview)
+      #   if: github.event_name == 'pull_request'
+      #   env:
+      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      #   run: |
+      #     if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+      #       npx netlify deploy --dir=apps/shell/dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
+      #     else
+      #       echo "Netlify secrets missing; skipping preview deploy";
+      #     fi
