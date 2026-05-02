@@ -25,7 +25,7 @@ export const plugin: GamePlugin = {
 
     const root = document.createElement('div');
     root.setAttribute('data-test', 'game-root');
-    root.style.fontFamily = '"OpenDyslexic", "Lexie Readable", "Comic Sans MS", cursive';
+    root.style.fontFamily = '"Lexend", system-ui, sans-serif';
     root.style.backgroundColor = '#fffdf4';
     root.style.minHeight = '100vh';
     root.style.padding = '24px';
