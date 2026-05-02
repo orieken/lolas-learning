@@ -41,7 +41,7 @@ module.exports = {
         'button-active': '0 0 0 0 rgba(0, 0, 0, 0.2)',
       },
       fontFamily: {
-        sans: ['Lexend', 'sans-serif'],
+        sans: ['OpenDyslexic', 'system-ui', 'sans-serif'],
       },
     },
   },

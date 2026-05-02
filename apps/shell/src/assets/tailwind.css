@@ -1,4 +1,5 @@
-@import "@fontsource-variable/lexend";
+@import "@fontsource/opendyslexic/400.css";
+@import "@fontsource/opendyslexic/700.css";
 @import "tailwindcss";
 @config "../../../../tailwind.config.cjs";
 

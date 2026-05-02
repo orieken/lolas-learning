@@ -13,7 +13,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fontsource-variable/lexend": "^5.2.11",
+    "@fontsource/opendyslexic": "^5.2.5",
     "@lolas/core-sdk": "workspace:*",
     "@lolas/game-freeze-math": "workspace:*",
     "@lolas/game-letter-detective": "workspace:*",
