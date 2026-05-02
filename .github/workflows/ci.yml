@@ -72,7 +72,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
           if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-            npx netlify-cli deploy --dir=apps/shell/dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
+            cd apps/shell && npx netlify-cli@16 deploy --dir=dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
           else
             echo "Netlify secrets missing; skipping deploy";
           fi
@@ -84,7 +84,7 @@ jobs:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
           if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-            npx netlify-cli deploy --dir=apps/shell/dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
+            cd apps/shell && npx netlify-cli@16 deploy --dir=dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
           else
             echo "Netlify secrets missing; skipping preview deploy";
           fi
