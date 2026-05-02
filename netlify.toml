@@ -1,0 +1,4 @@
+[build]
+  base    = "apps/shell"
+  command = "pnpm build"
+  publish = "dist"
