@@ -12,15 +12,6 @@
     "dev": "vite",
     "preview": "vite preview"
   },
-  "zephyr:dependencies": {
-    "math_blast": "@lolas/game-math-blast@latest",
-    "freeze_math": "@lolas/game-freeze-math@latest",
-    "number_detective": "@lolas/game-number-detective@latest",
-    "letter_detective": "@lolas/game-letter-detective@latest",
-    "word_detective": "@lolas/game-word-detective@latest",
-    "letter_flip_detective": "@lolas/game-letter-flip-detective@latest",
-    "spelling_detective": "@lolas/game-spelling-detective@latest"
-  },
   "dependencies": {
     "@lolas/core-sdk": "workspace:*",
     "@lolas/game-freeze-math": "workspace:*",

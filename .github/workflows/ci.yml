@@ -54,47 +54,7 @@ jobs:
           path: coverage
           if-no-files-found: ignore
 
-      # - name: Cache Playwright Browsers
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.cache/ms-playwright
-      #     key: ${{ runner.os }}-playwright-${{ hashFiles('pnpm-lock.yaml') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-playwright-
-
-      # - name: Install Playwright Browsers
-      #   run: pnpm exec playwright install --with-deps
-
-      # - name: E2E tests (Playwright)
-      #   run: pnpm e2e
-      #   env:
-      #     HEADLESS: 'true'
-
-      # - name: Upload e2e artifacts (test-results)
-      #   if: always()
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #       name: playwright-test-results
-      #       path: test-results
-      #       if-no-files-found: ignore
-
-      - name: Build and publish games to Zephyr Cloud
-        env:
-          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}
-          ZE_USER_EMAIL: ${{ secrets.ZE_USER_EMAIL }}
-        run: |
-          pnpm --filter @lolas/game-freeze-math build
-          pnpm --filter @lolas/game-math-blast build
-          pnpm --filter @lolas/game-number-detective build
-          pnpm --filter @lolas/game-letter-detective build
-          pnpm --filter @lolas/game-word-detective build
-          pnpm --filter @lolas/game-letter-flip-detective build
-          pnpm --filter @lolas/game-spelling-detective build
-
       - name: Build shell
-        env:
-          ZE_SECRET_TOKEN: ${{ secrets.ZE_SECRET_TOKEN }}
-          ZE_USER_EMAIL: ${{ secrets.ZE_USER_EMAIL }}
         run: pnpm --filter @lolas/shell build
 
       - name: Upload shell dist
@@ -105,26 +65,26 @@ jobs:
           path: apps/shell/dist
           if-no-files-found: warn
 
-      # - name: Netlify Deploy (Production)
-      #   if: github.ref == 'refs/heads/main' && !github.event.pull_request
-      #   env:
-      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      #   run: |
-      #     if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-      #       npx netlify deploy --dir=apps/shell/dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
-      #     else
-      #       echo "Netlify secrets missing; skipping deploy";
-      #     fi
+      - name: Netlify Deploy (Production)
+        if: github.ref == 'refs/heads/main' && !github.event.pull_request
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+            npx netlify-cli deploy --dir=apps/shell/dist --prod --site=$NETLIFY_SITE_ID --message "main build ${GITHUB_SHA}";
+          else
+            echo "Netlify secrets missing; skipping deploy";
+          fi
 
-      # - name: Netlify Deploy (Preview)
-      #   if: github.event_name == 'pull_request'
-      #   env:
-      #     NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-      #     NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-      #   run: |
-      #     if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
-      #       npx netlify deploy --dir=apps/shell/dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
-      #     else
-      #       echo "Netlify secrets missing; skipping preview deploy";
-      #     fi
+      - name: Netlify Deploy (Preview)
+        if: github.event_name == 'pull_request'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          if [ -n "$NETLIFY_AUTH_TOKEN" ] && [ -n "$NETLIFY_SITE_ID" ]; then
+            npx netlify-cli deploy --dir=apps/shell/dist --site=$NETLIFY_SITE_ID --message "pr preview ${GITHUB_HEAD_REF}";
+          else
+            echo "Netlify secrets missing; skipping preview deploy";
+          fi
