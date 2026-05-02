@@ -1,4 +1,4 @@
 [build]
   base    = "apps/shell"
-  command = "pnpm build"
+  command = "pnpm --filter @lolas/core-sdk build && pnpm --filter @lolas/ui-kit build && pnpm build"
   publish = "dist"

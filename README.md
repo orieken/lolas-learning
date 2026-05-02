@@ -1,74 +1,68 @@
-# Lolas Learning Monorepo
+# Lola's Learning
 
 [![CI](https://github.com/orieken/lolas-learning/actions/workflows/ci.yml/badge.svg)](https://github.com/orieken/lolas-learning/actions/workflows/ci.yml)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/REPLACE_ME_NETLIFY/site/status)](https://app.netlify.com/sites/REPLACE_ME_NETLIFY/overview)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/e1f70848-f60c-4bad-b6e0-cded2998db77/deploy-status)](https://app.netlify.com/projects/lolaslearning/deploys)
 
-This repository contains multiple apps and packages for the Lolas Learning platform.
+Lola's Learning is an interactive, extensible educational platform designed to provide a cohesive suite of learning games for children.
 
-## Tech Stack
-- TypeScript (strict)
-- pnpm workspaces
-- Vitest for unit tests
-- Playwright for end-to-end tests (+ axe-core a11y checks)
-- Vite dev servers
-- Pinia (state) + localForage (persistence) in shell
+## 🎯 What We Are Trying to Solve
 
-## CI/CD (P-11)
-Automated via GitHub Actions workflow `ci.yml`:
-- Install with cached pnpm store
-- Lint & typecheck gates
-- Unit tests (Vitest) with coverage artifact upload
-- E2E tests (Playwright) with report artifact upload
-- Build shell (and core packages)
-- Conditional Netlify deploy on push to main (and PR previews) when `NETLIFY_AUTH_TOKEN` & `NETLIFY_SITE_ID` secrets are present.
+Educational games for children are often fragmented. A child might use one app for math and an entirely different one for spelling, each with its own separate progress tracking, reward system, and user experience. 
 
-Badges above use placeholder values. Replace `REPLACE_ME_OWNER/REPLACE_ME_REPO` and `REPLACE_ME_NETLIFY` after repo & site are created.
+**Lola's Learning** solves this by providing a unified educational ecosystem. It features:
+- **Shared State & Progression**: A central profile that tracks progress, awards stars, and unlocks badges across all games.
+- **Adaptive Learning**: Games that adapt to the child's skill level.
+- **Micro-Frontend Extensibility**: A plug-and-play architecture that allows new games (like Number Detective or Freeze Math) to be developed in isolation and instantly integrated into the main platform.
+- **Blended Learning**: Support for generating dynamic PDFs and printable worksheets to bridge digital and physical learning.
 
-## Prerequisites
+## 🏗️ Architecture
+
+The platform uses a **Micro-Frontend (MFE)** architecture powered by Vite and Module Federation. This allows independent games to be mounted inside a single host application, sharing core logic while remaining decoupled.
+
+### Repository Structure
+
+We use a **pnpm workspaces** monorepo to manage our packages and applications:
+
+```text
+packages/
+  core-sdk/        Core API boundary, shared events, and types
+  ui-kit/          UI component library (shared design system)
+apps/
+  shell/           Host PWA shell (Pinia stores, federation host, global routing)
+  games/
+    number-detective/  Remote game: Math operations & number recognition
+    freeze-math/       Remote game: Fast-paced math challenges
+    letter-detective/  Remote game: Letter recognition
+    ...                (And many more)
+```
+
+### Core Technologies
+- **Host Application (`apps/shell`)**: Acts as the central hub. Built with Vue 3 and Vite. It manages global Pinia stores (profiles, rewards, sessions) backed by `localForage` for offline persistence.
+- **Remote Applications (`apps/games/*`)**: Individual learning games. Each game is a standalone micro-frontend that exposes a `./Game` entry point.
+- **State Management**: The shell owns the state. Games communicate with the shell via cross-boundary CoreAPI events (e.g., `awardPoints`, `saveSession`).
+- **Testing Strategy**: 
+  - **Unit**: Vitest (across the monorepo)
+  - **E2E**: Playwright (with axe-core for accessibility checks)
+
+## 🚀 Getting Started
+
+### Prerequisites
 - Node.js (v18+ recommended)
 - pnpm (install globally: `npm install -g pnpm`)
 
-## Install (All Workspaces)
+### Installation
 ```sh
 pnpm install
 ```
 
-## Run Unit Tests
-```sh
-pnpm test
-```
-Notes:
-- Vitest runs across the monorepo; e2e specs under `tests/e2e` are excluded from Vitest.
-- Coverage provider: V8 (see `vitest.config.ts`).
+### Local Development (Shell + Remote Game)
+You can use our custom CLI to start multiple micro-frontends at once.
 
-## Run E2E Tests (Playwright)
-```sh
-pnpm e2e
-```
-What this does:
-- Installs Playwright browsers if missing, builds workspace packages that e2e depends on, then runs tests in `tests/e2e`.
-- Dev servers for Shell (http://localhost:5173) and Number Detective (http://localhost:5174) are spawned automatically via Playwright’s `webServer` config.
-
-Configure via `.env` (see `.env.example`):
-- HEADLESS=true|false (default true)
-- RECORD_VIDEO=on|retain-on-failure|on-first-retry|off (boolean-like true -> on-first-retry)
-- SCREENSHOTS=on|only-on-failure|off (boolean-like true -> only-on-failure)
-
-Troubleshooting:
-- If a port is busy, stop any existing dev servers or change the port in the respective Vite config.
-- To open a trace after a failure:
-  ```sh
-  pnpm exec playwright show-trace test-results/**/trace.zip
-  ```
-
-## Local Development (Shell + Remote Game)
-You can now use a small CLI to start multiple micro frontends at once.
-
-Quick start (default apps):
+Quick start (default apps - Shell + Number Detective):
 ```sh
 pnpm dev
 ```
-This starts the default apps from tools/mf.manifest.json (shell and number-detective) and opens http://localhost:5173/#/ when ready.
+This starts the default apps from `tools/mf.manifest.json` and opens `http://localhost:5173/#/` when ready.
 
 Other helpful commands:
 ```sh
@@ -79,37 +73,23 @@ pnpm mf list
 pnpm mf start --all
 
 # Start a subset by id
-pnpm mf start shell
 pnpm mf start shell number-detective
 
 # Do not auto-open the browser
 pnpm mf start --no-open
 ```
 
-You can still start individual dev servers if you prefer:
-
-Terminal A – Number Detective game (remote):
+You can still start individual dev servers manually:
 ```sh
+# Terminal A – Remote game:
 pnpm --filter @lolas/game-number-detective dev
-```
-Terminal B – Shell app (host):
-```sh
+
+# Terminal B – Shell app:
 pnpm --filter @lolas/shell dev
 ```
-Then open the Shell:
-- http://localhost:5173/#/
-- Click “Go to Number Detective” to load the remote game.
 
-## Scaffold a New Microfrontend
-You can scaffold a new game microfrontend with our CLI. It will prompt for the game name, slug, port, and workspace package name, and will:
-- Create a new app under apps/games/<slug> with Vite + Module Federation exposing ./Game.
-- Generate a minimal Game.ts, a deterministic generator utility and a unit test.
-- Create a Playwright e2e test stub under tests/e2e/<slug>-load.spec.ts.
-- Append the new app to tools/mf.manifest.json so you can start it with pnpm mf start.
-- Automatically wire it into the Shell (adds remote in vite.config.ts, creates Game<Pascal>.vue view using useRemotePlugin, adds route and Home link).
-- Optionally adds a Playwright webServer entry for the new port so e2e can auto-start it.
-
-Usage:
+### Scaffold a New Microfrontend
+You can scaffold a new game microfrontend with our CLI:
 ```sh
 # Interactive
 pnpm mf:new
@@ -117,54 +97,39 @@ pnpm mf:new
 # Non-interactive flags
 node tools/mf-scaffold.mjs --name "Color Detective" --slug color-detective --port 5180 --pkg @lolas/game-color-detective
 ```
+The CLI will automatically wire it into the Shell, create a stub e2e test, and add it to the manifest.
 
-After scaffolding, run one of:
-- pnpm dev (starts defaults and opens the shell)
-- pnpm mf start --all (start everything)
-- pnpm mf start shell <slug> (start shell + just your new game)
+## 🧪 Testing
 
-## Useful Workspace Commands
-Run from repo root:
+### Run Unit Tests
 ```sh
-# Lint entire repo
-pnpm lint
-# Format (Prettier write)
-pnpm format
-# Build every package/app (each must have its own build script)
-pnpm -r build
-# Build a specific target
-pnpm --filter @lolas/core-sdk build
-pnpm --filter @lolas/shell build
-pnpm --filter @lolas/game-number-detective build
+pnpm test
+```
+*Vitest runs across the monorepo; e2e specs under `tests/e2e` are excluded. Coverage provider: V8.*
+
+### Run E2E Tests (Playwright)
+```sh
+pnpm e2e
+```
+*Installs Playwright browsers if missing, builds workspace packages, and runs tests in `tests/e2e`.*
+
+Configure via `.env` (see `.env.example`):
+- `HEADLESS=true|false`
+- `RECORD_VIDEO=on|retain-on-failure|on-first-retry|off`
+- `SCREENSHOTS=on|only-on-failure|off`
+
+## 🛠️ Useful Workspace Commands
+```sh
+pnpm lint                       # Lint entire repo
+pnpm format                     # Format (Prettier write)
+pnpm -r build                   # Build every package/app
+pnpm --filter @lolas/shell build # Build a specific target
 ```
 
-## Project Structure
-```
-packages/
-  core-sdk/        Core API boundary & types
-  ui-kit/          UI component library (placeholder)
-apps/
-  shell/           Host PWA shell (Pinia stores, federation host)
-  games/
-    number-detective/  First game (remote)
-```
-
-## State Stores
-Shell implements Pinia stores with localForage-backed persistence:
-- profiles
-- rewards (stars + badges; rule engine awards 1 star for perfect session, badge every 5 stars)
-- sessions
-- settings
-Each has unit tests mocking localForage.
-
-## Development Plan
-See `docs/detective-dev-plan.md` for the step-by-step prompts (P‑01–P‑14).
-Completed so far: P‑01, P‑02, P‑03, P‑05, P‑06, P‑07, P‑08, P‑09, P‑10.
-
-## Conventions
+## 📜 Conventions
 - Keep packages framework-agnostic unless explicitly an app.
-- Use CoreAPI events (awardPoints/saveSession/registerPrintable) for cross-boundary communication.
+- Use CoreAPI events (`awardPoints`, `saveSession`, `registerPrintable`) for cross-boundary communication.
 - Persist only minimal serializable state; derive the rest with getters.
 
-## License
+## 📝 License
 MIT
